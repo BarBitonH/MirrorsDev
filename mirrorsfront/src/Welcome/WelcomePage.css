@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+.welcome-container {
+    background: linear-gradient(120deg, #fdd835, #fff9c4);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.welcome-logo {
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+.welcome-content {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+
+.welcome-text h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-text p {
+    font-size: 1rem;
+    margin-bottom: 30px;
+}
+
+.welcome-rectangles {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.rectangle {
+    flex: 1;
+    padding: 30px;
+    border-radius: 15px;
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.rectangle h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 2;
+}
+
+.rectangle p {
+    position: relative;
+    z-index: 2;
+}
+
+.login-rectangle {
+    background: #fdd835;
+}
+
+.register-rectangle {
+    background: #fff9c4;
+}
+
+.welcome-button {
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    display: block;
+    margin-top: 20px;
+    position: relative;
+    z-index: 2;
+    transition: all 0.5s ease;
+}
+
+.login-button {
+    background: #333;
+    color: #fdd835;
+}
+
+.register-button {
+    background: #333;
+    color: #fff9c4;
+}
+
+.rectangle:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    transition: all 0.5s ease;
+    z-index: 1;
+}
+
+.rectangle:hover:before {
+    left: 0;
+    width: 100%;
+}
+.login-button:hover {
+    color: #000; /* Black color  hover */
+}
+.rectangle:hover {
+    transform: translateY(-10px) rotate(3deg); /* Adding rotation effect */
+    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.2);
+}
+.sparkle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+    opacity: 0;
+    animation: sparkle 5s linear infinite;
+}
+
+@keyframes sparkle {
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1); }
+}
+
+.sparkle:nth-child(1) { top: 10%; left: 15%; animation-delay: 1s; }
+.sparkle:nth-child(2) { top: 20%; left: 70%; animation-delay: 2s; }
+.sparkle:nth-child(3) { top: 50%; left: 40%; animation-delay: 3s; }
+.sparkle:nth-child(4) { top: 70%; left: 60%; animation-delay: 4s; }
+.sparkle:nth-child(5) { top: 40%; left: 10%; animation-delay: 5s; }
+
+.welcome-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
