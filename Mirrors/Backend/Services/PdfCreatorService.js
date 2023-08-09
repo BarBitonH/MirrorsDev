@@ -3,7 +3,7 @@ import fs from "fs/promises";
 import AWS from  './AWSconnectionService.js';
 import dotenv from "dotenv";
 import path from "path";
-dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\Omgene\\secrets.env')});
+dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\MirrorsDev\\secrets.env')});
 
 class PdfCreatorService{
     constructor() {

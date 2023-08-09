@@ -1,9 +1,8 @@
 import nodemailer from 'nodemailer';
 import dotenv from "dotenv";
 import path from "path";
-import {defaults} from "axios";
 
-dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\Omgene\\secrets.env')});
+dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\MirrorsDev\\secrets.env')});
 // Send a recovery email
 export async function sendRecoveryEmail(userEmail) {
     try {
@@ -50,18 +49,17 @@ export async function sendSuccessfullyRegisterUser(json){
         const timestamp = `${new Date().getDate().toString().padStart(2, '0')}/${(new Date().getMonth() + 1).toString().padStart(2, '0')}/${new Date().getFullYear()} ${new Date().getHours().toString().padStart(2, '0')}:${new Date().getMinutes().toString().padStart(2, '0')}`;
         const mailOptions = {
             from: process.env.EMAIL_CONFIRMATION_USER,
-            to: process.env.AMIT_MAIL,
+            to: process.env.BAR_MAIL,
             subject: 'Congratulation Amit new user was created !!!',
             text:
-                'Hi Amit,\n' +
-                'We would like to inform you that a new user has registered to OMGene. Here are the user details:\n' +
+                'Hi Bar,\n' +
+                'We would like to inform you that a new user has registered to Mirrors. Here are the user details:\n' +
                 'Date of registration :' + timestamp + ',\n'+
-                '- Name: ' + json.LoginProperty.firstName + ',\n' +
-                '- Phone number: ' + json.LoginProperty.phone + ',\n' +
+                '- Name: ' + json.LoginProperty.fullName + ',\n' +
                 '- Email: ' + json.LoginProperty.email + '\n' +
                 'Please ensure to approve this user.\n' +
                 'Best Regards,\n' +
-                'OMGene Automation Protocol'
+                'Mirrors Automation Protocol'
         };
         const info = await transporter.sendMail(mailOptions);
         console.log('Recovery email sent:', info.messageId);
@@ -100,7 +98,7 @@ It takes a single argument json, which is an object containing the details of th
 
 The function creates a nodemailer transporter similar to the sendRecoveryEmail function.
 
-It then sends an email to a specified email address (in this case, process.env.AMIT_MAIL) with the details of the new user.
+It then sends an email to a specified email address (in this case, process.env.BAR_MAIL) with the details of the new user.
 
 The dotenv.config() function is used to load environment variables from a .env file located at the specified path.
 

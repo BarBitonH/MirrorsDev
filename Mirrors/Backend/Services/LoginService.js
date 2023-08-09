@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import path from "path";
 import * as crypto from "crypto";
 import {sendSuccessfullyRegisterUser} from "./EmailService.js";
-dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\Omgene\\secrets.env')});
+dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\MirrorsDev\\secrets.env')});
 
 class LoginService {
     constructor() {
