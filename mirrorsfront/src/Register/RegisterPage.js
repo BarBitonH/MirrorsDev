@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import "./RegisterPage.css";
+import axios from "axios";
 
 const RegisterPage = () => {
     const [form, setForm] = useState({
@@ -65,10 +66,24 @@ const RegisterPage = () => {
         setForm({ ...form, userType: option.value, companyName: "" });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle registration logic
+        console.log("Form submitted"); // Add this line
+
+
+        try {
+            const response = await axios.post('http://localhost:3000/loginRouter/register', form);
+
+            if (response.status === 200) {
+                // Handle successful registration (e.g., navigate to a different page, show a success message, etc.)
+            } else {
+                // Handle failure (e.g., show an error message to the user)
+            }
+        } catch (error) {
+            // Handle error (e.g., show an error message to the user)
+        }
     };
+
 
     return (
         <div className="register-container">

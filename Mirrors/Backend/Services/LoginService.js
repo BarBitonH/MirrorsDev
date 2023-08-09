@@ -1,5 +1,4 @@
 import axios from 'axios';
-import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 import AuthService from './AuthService.js';
 import TokenService from './TokenService.js';
@@ -7,12 +6,12 @@ import dotenv from "dotenv";
 import path from "path";
 import * as crypto from "crypto";
 import {sendSuccessfullyRegisterUser} from "./EmailService.js";
-dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\Omgene\\secrets.env')});
+dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\MirrorsDev\\secrets.env')});
 
 class LoginService {
     constructor() {
         this.authService = new AuthService();
-        this.tokenService = new TokenService(process.env.JWT_EXTERNAL_SECRET,);
+        this.tokenService = new TokenService(process.env.JWT_INTERNAL_SECRET,);
     }
 
     async login(email, password,  expectedReferer) {
@@ -45,9 +44,8 @@ class LoginService {
     async fetchUser(email,token) {
         try {
             const payload =  {queryTitle: 'LoginProperty.email', queryData: email,dbUrl:'Users' }
-            const userResponse = await axios.post('http://localhost:3000/gateWayRouter/gateWay',payload, {
+            const userResponse = await axios.post('http://localhost:3000/dbRouter/db/find',payload, {
                 headers: {
-                    'destinationUrl': 'http://localhost:3000/dbRouter/db/find',
                     'collection':'User_login',
                     'db':'Users',
                     'x_inf_token':this.tokenService.generateAccessToken(payload)
@@ -95,13 +93,10 @@ class LoginService {
         json['password'] = encryptedPassword;
         const jsonToInsert = {
             'internal_axon_id':uuid(),
-            'is_approved':false,
-
             'LoginProperty':json
         }
-        const results = await axios.post('http://localhost:3000/gateWayRouter/gateWay',
+        const results = await axios.post('http://localhost:3000/dbRouter/db/insert',
             jsonToInsert,{headers:{
-            'destinationUrl': 'http://localhost:3000/dbRouter/db/insert',
                 'collection':'User_login',
                 'db':'Users',
                 'x_inf_token':this.tokenService.generateAccessToken(json)

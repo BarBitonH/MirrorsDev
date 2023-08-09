@@ -1,0 +1,167 @@
+/* Basic reset for browser consistency */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif; /* Using Arial as an example. You can replace with other fonts. */
+}
+
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(45deg, #FFD700, #FFA500); /* A slight gradient from yellow to orange */
+    overflow: auto;
+}
+.profile-card-header {
+    background: linear-gradient(135deg, #FFD700 10%, #FFA500 90%);
+    color: white;
+    padding: 20px 50px;
+    border-top-left-radius: 20px; /* Consistent with card's border */
+    border-top-right-radius: 20px; /* Consistent with card's border */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); /* Add depth */
+    position: relative; /* To position pseudo-elements */
+    overflow: hidden; /* To contain pseudo-elements */
+}
+profile-card-header::before,
+.profile-card-header::after {
+    content: '';
+    background: rgba(255, 255, 255, 0.15); /* White circles with some transparency */
+    position: absolute;
+    border-radius: 50%;
+    z-index: -1; /* Send them behind the header content */
+    animation: rotateSlowly 20s infinite linear;
+    opacity: 0.6;
+}
+
+.profile-card-header::before {
+    top: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+}
+
+.profile-card-header::after {
+    bottom: -150px;
+    right: -150px;
+    width: 500px;
+    height: 500px;
+}
+
+@keyframes rotateSlowly {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.profile-card-header h1 {
+    font-size: 34px;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2); /* To make the text pop out */
+}
+.profile-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    padding: 50px;
+    width: 70%;
+    max-width: 1000px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #333; /* Dark gray color for contrast */
+    letter-spacing: 1px;
+    text-transform: uppercase; /* Making the title uppercase for more visual appeal */
+    text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+}
+
+label {
+    font-weight: 600;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    align-self: flex-start;
+}
+
+.input-text, .input-textarea {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.07); /* Slight dark background for contrast */
+    font-size: 15px;
+    color: #444;
+    transition: all 0.3s ease;
+}
+
+.input-text:focus, .input-textarea:focus {
+    outline: none;
+    box-shadow: 0 0 5px #FFD700;
+}
+
+.input-file {
+    display: none;
+}
+
+.btn-add {
+    background-color: #FFD700;
+    border: none;
+    color: #333;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 15px 0;
+    cursor: pointer;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.btn-add:hover {
+    background-color: #FFA500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.profile-picture-container {
+    text-align: center;
+    margin-bottom: 30px;
+    width: 100%;
+    position: relative;
+}
+
+.profile-picture-label {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.profile-picture {
+    width: 120px;
+    height: 120px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: inline-block;
+    background: url('https://via.placeholder.com/50?text=👤') no-repeat center;
+    background-size: 70%; /* Adjusting the placeholder icon size */
+    transition: all 0.3s ease;
+}
+
+.profile-picture:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}

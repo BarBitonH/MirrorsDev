@@ -5,12 +5,9 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import path from "path";
 
-dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\Omgene\\secrets.env')});
+dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\MirrorsDev\\secrets.env')});
 
 const SECRET_KEY = process.env.JWT_INTERNAL_SECRET;
-const ACCESS_TOKEN_EXPIRATION_TIME = '15m';
-const REFRESH_TOKEN_EXPIRATION_TIME = '1h';
-
 const authService = new AuthService(SECRET_KEY);
 const mongo =new mongoDbService();
 

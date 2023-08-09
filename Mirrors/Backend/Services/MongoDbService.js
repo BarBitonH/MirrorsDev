@@ -2,7 +2,7 @@ import mongoose, {connect} from 'mongoose'
 import {v4 as uuidv4} from 'uuid';
 import dotenv from "dotenv";
 import path from "path";
-dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\Omgene\\secrets.env')});
+dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\MirrorsDev\\secrets.env')});
 class MongoDbService {
     constructor() {
         this.dbURL = process.env.DB_CONNECTION_STRING;

@@ -1,5 +1,5 @@
 import express from "express";
-import {DbUpdate,DbInsert,DbFind} from "../Contolers/DbController.js";
+import {DbUpdate,DbInsert,DbFind} from "../controllers/DbController.js";
 
 const dbRouter = express.Router();
 dbRouter.use(express.json())

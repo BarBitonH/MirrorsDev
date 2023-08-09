@@ -1,9 +1,8 @@
 import nodemailer from 'nodemailer';
 import dotenv from "dotenv";
 import path from "path";
-import {defaults} from "axios";
 
-dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\Omgene\\secrets.env')});
+dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\MirrorsDev\\secrets.env')});
 // Send a recovery email
 export async function sendRecoveryEmail(userEmail) {
     try {
@@ -51,17 +50,15 @@ export async function sendSuccessfullyRegisterUser(json){
         const mailOptions = {
             from: process.env.EMAIL_CONFIRMATION_USER,
             to: process.env.AMIT_MAIL,
-            subject: 'Congratulation Amit new user was created !!!',
+            subject: 'Congratulation Bar new user was created !!!',
             text:
-                'Hi Amit,\n' +
-                'We would like to inform you that a new user has registered to OMGene. Here are the user details:\n' +
+                'Hi Bar,\n' +
+                'We would like to inform you that a new user has registered to Mirrors. Here are the user details:\n' +
                 'Date of registration :' + timestamp + ',\n'+
-                '- Name: ' + json.LoginProperty.firstName + ',\n' +
-                '- Phone number: ' + json.LoginProperty.phone + ',\n' +
+                '- Name: ' + json.LoginProperty.fullName + ',\n' +
                 '- Email: ' + json.LoginProperty.email + '\n' +
-                'Please ensure to approve this user.\n' +
                 'Best Regards,\n' +
-                'OMGene Automation Protocol'
+                'Mirrors Automation Protocol'
         };
         const info = await transporter.sendMail(mailOptions);
         console.log('Recovery email sent:', info.messageId);
@@ -73,7 +70,6 @@ export async function sendSuccessfullyRegisterUser(json){
 
 }
 export default sendRecoveryEmail;
-const email = sendRecoveryEmail({email:'bitonbarr10@gmail.com',phone:'0539261211',firstName:'bar'});
 
 
 /* ReadMe :

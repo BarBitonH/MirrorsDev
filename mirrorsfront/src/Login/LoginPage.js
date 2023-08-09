@@ -17,7 +17,7 @@ const LoginPage = () => {
             // const response = await axios.post('/LoginRouter/login', { email, password });
             // if (response.status === 200) {
             // Navigate to CompanyProfile page after successful login
-            navigate('/company-profile');
+            navigate('/ProfileUpdate');
             // }
         } catch (error) {
             // if (error.response && (error.response.status === 401 || error.response.status === 400 || error.response.status === 500)) {

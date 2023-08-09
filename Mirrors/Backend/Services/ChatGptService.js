@@ -7,7 +7,7 @@ import tokenService from "./TokenService.js";
 import dotenv from "dotenv";
 import path from "path";
 import pdfCreatorService from "./PdfCreatorService.js";
-dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\Omgene\\secrets.env')});
+dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\MirrorsDev\\secrets.env')});
 
 
 class ChatGptService{
