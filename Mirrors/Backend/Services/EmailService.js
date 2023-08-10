@@ -71,7 +71,6 @@ export async function sendSuccessfullyRegisterUser(json){
 
 }
 export default sendRecoveryEmail;
-const email = sendRecoveryEmail({email:'bitonbarr10@gmail.com',phone:'0539261211',firstName:'bar'});
 
 
 /* ReadMe :

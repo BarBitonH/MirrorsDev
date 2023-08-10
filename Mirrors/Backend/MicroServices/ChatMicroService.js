@@ -1,5 +1,5 @@
 import express from "express";
-import {createConversation, createReport, mtbiTest} from '../Contolers/ChatController.js';
+import {createConversation, createReport, mtbiTest} from '../controllers/ChatController.js';
 
 const chatRouter = express.Router();
 chatRouter.use(express.json());

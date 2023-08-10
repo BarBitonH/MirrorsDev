@@ -1,12 +1,6 @@
-import {Configuration, OpenAIApi} from 'openai';
 import axios from "axios";
-import fs from 'fs/promises';
-import { PDFDocument,rgb,StandardFonts} from "pdf-lib";
-import fontkit from '@pdf-lib/fontkit';
-import tokenService from "./TokenService.js";
 import dotenv from "dotenv";
 import path from "path";
-import pdfCreatorService from "./PdfCreatorService.js";
 dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\MirrorsDev\\secrets.env')});
 
 
@@ -15,9 +9,6 @@ class ChatGptService{
     constructor() {
         this.apiKey=process.env.OPEN_AI_API_KEY;
         this.orginazation = process.env.OPEN_AI_ORG_ID;
-        this.config = new Configuration({organization:this.orginazation,apiKey:this.apiKey})
-        this.chat = new OpenAIApi(this.config);
-        this.pdfCreator = new pdfCreatorService();
     }
 
      generateStrengthMessage(json){

@@ -1,6 +1,6 @@
-const winston = require('winston');
-const fs = require('fs');
-const path = require('path');
+import winston from 'winston';
+import fs from 'fs';
+import path from 'path';
 
 class Logger {
     constructor() {

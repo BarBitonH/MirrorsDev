@@ -60,15 +60,24 @@ export const recoverPassword = async (req, res) => {
 export const register = async (req,res)=>{
     try {
         console.log('registerService was called');
-        if (!req.body.payload.fullName || !req.body.payload.email || !req.body.payload.phone || !req.body.payload.password) {
-            return res.status(400).json({messege: 'wrong payload'});
+        if (!req.body.fullName || !req.body.email || !req.body.userType || !req.body.password||!req.body.country) {
+            return res.status(400).json({message: 'wrong payload'});
+            console.error('Wrong Payload structure');
+        }
+        if (typeof req.body.fullName !== 'string' ||
+            typeof req.body.email !== 'string' ||
+            typeof req.body.userType !== 'string' ||
+            typeof req.body.password !== 'string' ||
+            typeof req.body.country !== 'string') {
+            return res.status(400).json({message: 'wrong payload'});
             console.error('Wrong Payload');
         }
         const json = {
-            firstName: req.body.payload.fullName,
-            email: req.body.payload.email,
-            password: req.body.payload.password,
-            phone: req.body.payload.phone
+            fullName: req.body.fullName,
+            email: req.body.email,
+            userType: req.body.userType,
+            password: req.body.password,
+            country: req.body.country
         }
         const responseRegister = loginService.register(json);
         return res.status(200).json({message: 'the user been created successfully'});

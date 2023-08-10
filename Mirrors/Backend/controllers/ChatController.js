@@ -5,8 +5,6 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import axios from "axios";
 import * as path from "path";
-import MtbiTest from "../Services/MtbiTest.js";
-import chatGptService from "../Services/ChatGptService.js";
 
 dotenv.config({path:path.resolve('C:\\Users\\Admin\\WebstormProjects\\Mirrors\\Backend\\secrets.env')});
 const gptService = new ChatGptService();

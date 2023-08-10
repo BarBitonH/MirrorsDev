@@ -1,5 +1,4 @@
 import axios from 'axios';
-import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 import AuthService from './AuthService.js';
 import TokenService from './TokenService.js';
@@ -12,7 +11,7 @@ dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\MirrorsDe
 class LoginService {
     constructor() {
         this.authService = new AuthService();
-        this.tokenService = new TokenService(process.env.JWT_EXTERNAL_SECRET,);
+        this.tokenService = new TokenService(process.env.JWT_INTERNAL_SECRET,);
     }
 
     async login(email, password,  expectedReferer) {
@@ -99,9 +98,8 @@ class LoginService {
 
             'LoginProperty':json
         }
-        const results = await axios.post('http://localhost:3000/gateWayRouter/gateWay',
+        const results = await axios.post('http://localhost:3000/dbRouter/db/insert',
             jsonToInsert,{headers:{
-            'destinationUrl': 'http://localhost:3000/dbRouter/db/insert',
                 'collection':'User_login',
                 'db':'Users',
                 'x_inf_token':this.tokenService.generateAccessToken(json)
