@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import "./RegisterPage.css";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
+    const navigate = useNavigate();
     const [form, setForm] = useState({
         userType: "",
         companyName: "",
@@ -80,6 +82,7 @@ const RegisterPage = () => {
             // Handle the response
             if (response.status === 200) {
                 alert("Registration successful!");
+                navigate('/');
                 // You can reset the form or navigate the user to another page
             } else {
                 alert(response.data.error || "There was an error with the registration");

@@ -16,7 +16,7 @@ const recoveryService = new RecoveryService();
 export const login = async (req, res) => {
     try {
         console.log('the system called');
-        const loginResults = await loginService.login(req.body.payload.username, req.body.payload.password, req.headers.referrer);
+        const loginResults = await loginService.login(req.body.email, req.body.password);
         if (loginResults.token && loginResults.internal_axon_id) {
             res.setHeader('x_inf_token',loginResults.token);
             return res.status(200).json({internal_axon_id: loginResults.internal_axon_id,needquestioneir:loginResults.needquestioneir});

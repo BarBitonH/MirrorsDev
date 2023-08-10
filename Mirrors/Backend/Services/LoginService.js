@@ -44,9 +44,8 @@ class LoginService {
     async fetchUser(email,token) {
         try {
             const payload =  {queryTitle: 'LoginProperty.email', queryData: email,dbUrl:'Users' }
-            const userResponse = await axios.post('http://localhost:3000/gateWayRouter/gateWay',payload, {
+            const userResponse = await axios.post('http://localhost:3000/dbRouter/db/find',payload, {
                 headers: {
-                    'destinationUrl': 'http://localhost:3000/dbRouter/db/find',
                     'collection':'User_login',
                     'db':'Users',
                     'x_inf_token':this.tokenService.generateAccessToken(payload)
@@ -57,7 +56,7 @@ class LoginService {
                 throw new Error('User not found');
             }
             if(userResponse.status === 200)
-                return userResponse.data.body.data;
+                return userResponse.data.data;
         } catch (error) {
             console.error(error);
             throw new Error('Error fetching user');
