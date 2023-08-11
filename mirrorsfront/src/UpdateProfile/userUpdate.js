@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import styled, {createGlobalStyle} from 'styled-components';
 
-// ... [styled components definitions from above] ...
-
 // Global Styles
 const GlobalStyle = createGlobalStyle`
   body {

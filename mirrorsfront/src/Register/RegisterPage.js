@@ -27,15 +27,30 @@ const RegisterPage = () => {
         "Work to become, not to acquire. —Elbert Hubbard"
         // Add more quotes as needed
     ];
-
+    const [currentQuote, setCurrentQuote] = useState('');
     const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
 
     useEffect(() => {
+        setCurrentQuote(''); // Reset the quote each time the index changes
+        const quoteChars = quotes[currentQuoteIndex].split('');
+        let charIndex = 0;
+
+        const intervalTime = 20000 / quoteChars.length; // 20,000ms = 20s
         const interval = setInterval(() => {
-            setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
-        }, 5000);
+            setCurrentQuote((oldQuote) => oldQuote + quoteChars[charIndex]);
+            charIndex++;
+
+            if (charIndex === quoteChars.length) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
+                }, 4000); // 4 seconds delay between quotes
+            }
+        }, intervalTime);
+
         return () => clearInterval(interval);
-    }, [quotes.length]);
+    }, [currentQuoteIndex, quotes]);
+
 
     useEffect(() => {
         setIsPasswordValid(form.password && form.confirmPassword && form.password === form.confirmPassword);
@@ -98,7 +113,7 @@ const RegisterPage = () => {
                 <h1>Welcome</h1>
                 <p className="world-of-mirrors">To The World Of Mirrors</p>
                 <p className="subtitle">You are about to take off your career level way up to the sky</p>
-                <div className="quote-container"> {/* Fixed this line */}
+                <div className="quote-container">
                     {quotes.map((quote, index) => (
                         <p
                             key={index}

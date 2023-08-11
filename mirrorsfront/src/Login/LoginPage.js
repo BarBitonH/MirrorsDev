@@ -21,7 +21,7 @@ const LoginPage = () => {
 
             if (response.status === 200) {
                 // Navigate to CompanyProfile page after successful login
-                navigate('/userUpdate');
+                navigate('/companyUpdate');
             } else {
                 // Optional: Handle other response statuses if needed
                 setError('Login failed. Please try again.');
