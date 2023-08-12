@@ -22,6 +22,8 @@ const WelcomePage = () => {
                         <h3>Register</h3>
                         <p>New here? Join us today!</p>
                         <Link to="/register" className="welcome-button register-button">Register</Link>
+                        <Link to="/WhoWeAre" className="welcome-button learn-more-button">Click here to learn more about us</Link>
+
                     </div>
                 </div>
             </div>

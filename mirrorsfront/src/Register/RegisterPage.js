@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import "./RegisterPage.css";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
+    const navigate = useNavigate();
     const [form, setForm] = useState({
         userType: "",
         companyName: "",
@@ -24,15 +27,30 @@ const RegisterPage = () => {
         "Work to become, not to acquire. —Elbert Hubbard"
         // Add more quotes as needed
     ];
-
+    const [currentQuote, setCurrentQuote] = useState('');
     const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
 
     useEffect(() => {
+        setCurrentQuote(''); // Reset the quote each time the index changes
+        const quoteChars = quotes[currentQuoteIndex].split('');
+        let charIndex = 0;
+
+        const intervalTime = 20000 / quoteChars.length; // 20,000ms = 20s
         const interval = setInterval(() => {
-            setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
-        }, 5000);
+            setCurrentQuote((oldQuote) => oldQuote + quoteChars[charIndex]);
+            charIndex++;
+
+            if (charIndex === quoteChars.length) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
+                }, 4000); // 4 seconds delay between quotes
+            }
+        }, intervalTime);
+
         return () => clearInterval(interval);
-    }, [quotes.length]);
+    }, [currentQuoteIndex, quotes]);
+
 
     useEffect(() => {
         setIsPasswordValid(form.password && form.confirmPassword && form.password === form.confirmPassword);
@@ -65,9 +83,28 @@ const RegisterPage = () => {
         setForm({ ...form, userType: option.value, companyName: "" });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle registration logic
+
+        if (!isPasswordValid || !form.fullName || !form.country || !form.email || (form.userType === "company" && !form.companyName)) {
+            // Handle validation error
+            return;
+        }
+
+        try {
+            const response = await axios.post('http://localhost:3000/loginRouter/register', form);
+
+            // Handle the response
+            if (response.status === 200) {
+                alert("Registration successful!");
+                navigate('/');
+                // You can reset the form or navigate the user to another page
+            } else {
+                alert(response.data.error || "There was an error with the registration");
+            }
+        } catch (error) {
+            alert("There was an error connecting to the server. Please try again later.");
+        }
     };
 
     return (
@@ -76,7 +113,7 @@ const RegisterPage = () => {
                 <h1>Welcome</h1>
                 <p className="world-of-mirrors">To The World Of Mirrors</p>
                 <p className="subtitle">You are about to take off your career level way up to the sky</p>
-                <div className="quote-container"> {/* Fixed this line */}
+                <div className="quote-container">
                     {quotes.map((quote, index) => (
                         <p
                             key={index}

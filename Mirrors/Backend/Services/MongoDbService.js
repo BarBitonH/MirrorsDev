@@ -1,5 +1,4 @@
 import mongoose, {connect} from 'mongoose'
-import {v4 as uuidv4} from 'uuid';
 import dotenv from "dotenv";
 import path from "path";
 dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\MirrorsDev\\secrets.env')});
@@ -88,27 +87,8 @@ class MongoDbService {
         console.error('not exists query or not exists collection');
     }
 
-    convertToJSON(bodyString) {
-        const splitBody = bodyString.replace(/\\n\\n/g, '\\n').split('\\n').slice(1);
-        let result = {};
-        let key = "";
 
-        splitBody.forEach(line => {
-            if (line.startsWith('Chapter')) {
-                key = line;
-                result[key] = '';
-            } else {
-                result[key] += line;
-            }
-        });
-
-        return JSON.stringify(result, null, 2);
-    }
-    splitQuery(query) {
-        let [queryKey, queryValue] = query.split(":");
-        let queryObj = {};
-        queryObj[queryKey] = queryValue;
-        return queryObj
-    }
 }
 export default MongoDbService;
+
+

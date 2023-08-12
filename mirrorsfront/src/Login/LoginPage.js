@@ -13,16 +13,34 @@ const LoginPage = () => {
     const handleLogin = async () => {
         setIsLoggingIn(true);
         try {
-            // Temporarily comment out your API call for testing
-            // const response = await axios.post('/LoginRouter/login', { email, password });
-            // if (response.status === 200) {
-            // Navigate to CompanyProfile page after successful login
-            navigate('/company-profile');
-            // }
+            // Uncommenting the API call to send login details to the server
+            const response = await axios.post('http://localhost:3000/loginRouter/login', {
+                email: email,
+                password: password
+            });
+
+            if (response.status === 200) {
+                // Navigate to CompanyProfile page after successful login
+                localStorage.setItem('internal_axon_id', response.data.internal_axon_id);
+                localStorage.setItem('x_mir_token', response.data['x_mir_token']);
+                if(response.data.needUpdate) {
+                    console.log(response.data.userTpye);
+                    if (response.data.userTpye === 'applicant')
+                        navigate('/userUpdate')
+                    else
+                        navigate('/companyUpdate');
+                }
+            } else {
+                // Optional: Handle other response statuses if needed
+                setError('Login failed. Please try again.');
+                setIsLoggingIn(false);
+            }
         } catch (error) {
-            // if (error.response && (error.response.status === 401 || error.response.status === 400 || error.response.status === 500)) {
-            setError('Wrong password or email');
-            // }
+            if (error.response && (error.response.status === 401 || error.response.status === 400 || error.response.status === 500)) {
+                setError('Wrong password or email');
+            } else {
+                setError('An error occurred. Please try again later.');
+            }
             setIsLoggingIn(false);
         }
     };
