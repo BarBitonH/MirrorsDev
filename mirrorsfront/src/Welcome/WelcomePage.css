@@ -1,5 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
+.learn-more-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 20px;
+    background: linear-gradient(120deg, #fdd835, #fff9c4); /* gradient you provided */
+    border: none;
+    border-radius: 5px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+/* Optional: Add hover effect */
+.learn-more-button:hover {
+    background: #fdd835; /* solid color on hover */
+    transform: scale(1.05); /* slightly enlarge button on hover */
+}
+
+
+
 .welcome-container {
     background: linear-gradient(120deg, #fdd835, #fff9c4);
     height: 100vh;

@@ -21,7 +21,15 @@ const LoginPage = () => {
 
             if (response.status === 200) {
                 // Navigate to CompanyProfile page after successful login
-                navigate('/companyUpdate');
+                localStorage.setItem('internal_axon_id', response.data.internal_axon_id);
+                localStorage.setItem('x_mir_token', response.data['x_mir_token']);
+                if(response.data.needUpdate) {
+                    console.log(response.data.userTpye);
+                    if (response.data.userTpye === 'applicant')
+                        navigate('/userUpdate')
+                    else
+                        navigate('/companyUpdate');
+                }
             } else {
                 // Optional: Handle other response statuses if needed
                 setError('Login failed. Please try again.');

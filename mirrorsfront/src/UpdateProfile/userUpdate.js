@@ -52,7 +52,7 @@ const UploadInput = styled.input`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 300vh;
+  height: 400vh;
   padding: 20px;
 `;
 const Card = styled.div`

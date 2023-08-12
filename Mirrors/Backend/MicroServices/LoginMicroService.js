@@ -4,7 +4,7 @@ import { login, logout, recoverPassword,register} from '../controllers/LogInConr
 
 const loginRouter = express.Router();
 loginRouter.use(cors({
-    exposedHeaders: 'x_inf_token',
+    exposedHeaders: 'x_mir_token',
 }));
 loginRouter.use(express.json());
 loginRouter.post('/login', login);

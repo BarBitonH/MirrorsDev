@@ -4,7 +4,7 @@ describe('Email Sending', () => {
 
     it('sends a recovery email', async () => {
         try {
-            await sendRecoveryEmail('test@example.com');
+            await sendRecoveryEmail('bitonbarr10@gmail.com');
             console.log('Recovery email sent successfully to test@example.com');
         } catch (err) {
             console.error('Failed to send recovery email to test@example.com:', err.message);
@@ -15,7 +15,7 @@ describe('Email Sending', () => {
         const userData = {
             LoginProperty: {
                 fullName: 'John Doe',
-                email: 'john@example.com',
+                email: 'bitonbarr10@gmail.com',
             },
         };
 

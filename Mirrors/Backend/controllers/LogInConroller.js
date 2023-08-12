@@ -17,9 +17,9 @@ export const login = async (req, res) => {
     try {
         console.log('the system called');
         const loginResults = await loginService.login(req.body.email, req.body.password);
-        if (loginResults.token && loginResults.internal_axon_id) {
-            res.setHeader('x_inf_token',loginResults.token);
-            return res.status(200).json({internal_axon_id: loginResults.internal_axon_id,needquestioneir:loginResults.needquestioneir});
+        if (loginResults['x_mir_token'] && loginResults.internal_axon_id && loginResults.needUpdate && loginResults.userType) {
+            res.setHeader('x_mir_token',loginResults['x_mir_token']);
+            return res.status(200).json({internal_axon_id: loginResults.internal_axon_id,needUpdate:loginResults.needUpdate,userTpye:loginResults.userType});
         } else {
             // Invalid credentials (client error) - 401 Unauthorized
             return res.status(401).json({ message: 'Invalid credentials' });
@@ -39,9 +39,9 @@ export const logout = (req, res) => {
 
 export const recoverPassword = async (req, res) => {
     try {
-        if(!req.headers['x_inf_token'])
+        if(!req.headers['x_mir_token'])
             return res.status(400).json('Authentication Not included');
-        const token = req.headers['x_inf_token'];
+        const token = req.headers['x_mir_token'];
         if(!authService.verifyAccessToken(token) || req.headers['referrer'] !== '/gateway')
             return res.status(401).json('Unauthorized Authentication');
         if (!req.body.email) {
@@ -88,10 +88,10 @@ export const register = async (req,res)=>{
 };
 export const changePasswordAfterRecovery = async (req, res) => {
     try {
-        if (!req.headers['x_inf_token'])
+        if (!req.headers['x_mir_token'])
             return res.status(400).json('Authentication Not included');
 
-        const token = req.headers['x_inf_token'];
+        const token = req.headers['x_mir_token'];
 
         if (!authService.verifyAccessToken(token) || req.headers['referrer'] !== '/gateway')
             return res.status(401).json('Unauthorized Authentication');

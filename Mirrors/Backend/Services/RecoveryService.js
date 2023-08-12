@@ -22,7 +22,7 @@ class RecoveryService {
                 update: {$set: {'user.password': newPassword}}
             }, {
                 collection: 'users',
-                'x_inf_token': token
+                'x_mir_token': token
             });
 
             if (res.status === 200) {

@@ -34,7 +34,7 @@ class ChatGptService{
     }
     async extractUserGenes(internalAxonId, token){
         const genes = await axios.post('http://localhost:3000/gateWayRouter/gateWay',{queryTitle:'internal_axon_id',queryData:internalAxonId},{headers:{
-                'x_inf_token':token,
+                'x_mir_token':token,
                 'destinationurl': 'http://localhost:3000/dbRouter/db/find',
                 'collection': 'User_login',
                 db:'Users'}
@@ -43,7 +43,7 @@ class ChatGptService{
     }
     async extractMtbi(internalAxonId,token){
         const response = await axios.post('http://localhost:3000/gateWayRouter/gateWay',{queryTitle:'internal_axon_id',queryData:internalAxonId},{headers:{
-                'x_inf_token': token,
+                'x_mir_token': token,
                 'destinationurl': 'http://localhost:3000/dbRouter/db/find',
                 db: 'Users',
                 collection:'User_login'
@@ -256,7 +256,7 @@ E. Online Community Engagement: Recommend two existing Facebook groups that are 
     async createFinalyReport(json,internalAxonId,token){
         const reportString = await this.generateResponses(json);
         const summarizedStrings = await Promise.all(Object.values(reportString).map(value => this.createSummaryAndInsertSummaryToDb(value,token,internalAxonId)));
-        const resultOfUpdating = await axios.post('http://localhost:3000/gateWayRouter/gateWay',{method:'$set',queryTitle:'internal_axon_id',queryData:internalAxonId,update:{summarizedData: summarizedStrings}},{headers:{destinationurl:'http://localhost:3000/dbRouter/db/update','x_inf_token':token,db:'Users',collection:'User_login'}});
+        const resultOfUpdating = await axios.post('http://localhost:3000/gateWayRouter/gateWay',{method:'$set',queryTitle:'internal_axon_id',queryData:internalAxonId,update:{summarizedData: summarizedStrings}},{headers:{destinationurl:'http://localhost:3000/dbRouter/db/update','x_mir_token':token,db:'Users',collection:'User_login'}});
         const pdf = await this.pdfCreator.insertReport(reportString,internalAxonId);
         return{pdf:pdf , reportString: reportString,summarizedReport:summarizedStrings};
     }
@@ -281,7 +281,7 @@ E. Online Community Engagement: Recommend two existing Facebook groups that are 
             `give the user practical things to do to accomplish your suggestion for his question only what needed to add, for ex. podcusts books way of life sports and more options he may need to use that answer only but only his question. His personality is ${historyPersonality} and his genes that are strengths are ${JSON.stringify(genes.strengths)} and the genes that are weekness are ${JSON.stringify(genes.weekness)} dont tell  the user his weeknesses just help him to overcome it . and his mtbi is ${mtbi} and the user's question is :${question}`;
         const resultFromGpt = await this.createApiRequestForChatGpt(prompt);
         const gptSummary = await this.createSummaryAndInsertSummaryToDb(resultFromGpt);
-        const resultOfUpdating = await axios.post('http://localhost:3000/gateWayRouter/gateWay',{method:'$push',queryTitle:'internal_axon_id',queryData:internalAxonId,update:{summarizedData: gptSummary}},{headers:{destinationurl:'http://localhost:3000/dbRouter/db/update','x_inf_token':token,db:'Users',collection:'User_login'}});
+        const resultOfUpdating = await axios.post('http://localhost:3000/gateWayRouter/gateWay',{method:'$push',queryTitle:'internal_axon_id',queryData:internalAxonId,update:{summarizedData: gptSummary}},{headers:{destinationurl:'http://localhost:3000/dbRouter/db/update','x_mir_token':token,db:'Users',collection:'User_login'}});
         return resultFromGpt;
     }
     async generateSummaryForReport(string,internalAxonId,token){

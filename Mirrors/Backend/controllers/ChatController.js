@@ -15,12 +15,12 @@ const REFRESH_TOKEN_EXPIRATION_TIME = process.env.JWT_REFRESH_TIME;
 const authService = new AuthService(SECRET_KEY_INTERNAL);
 const tokenService = new TokenService(SECRET_KEY_EXTERNAL, ACCESS_TOKEN_EXPIRATION_TIME, REFRESH_TOKEN_EXPIRATION_TIME);
 export const createReport = async (req, res) => {
-    if (!req.headers['x_inf_token']) {
+    if (!req.headers['x_mir_token']) {
         console.error('Access Token not provided');
         return res.status(400).json({ message: 'Access Token not provided' });
     }
 
-    const accessToken = req.headers['x_inf_token'];
+    const accessToken = req.headers['x_mir_token'];
 
     if (!authService.verifyAccessToken(accessToken)) {
         console.error('Unauthorized token');
@@ -43,7 +43,7 @@ export const createReport = async (req, res) => {
         const queryData = req.body.internal_axon_id;
         const updateReportString = {'personalityData.stringReport': reportString};
         let headersUpdateString = {
-            'x_inf_token': tokenService.generateAccessToken({queryTitle, queryData,method:'$set'}),
+            'x_mir_token': tokenService.generateAccessToken({queryTitle, queryData,method:'$set'}),
             'destinationurl': 'http://localhost:3000/dbRouter/db/update',
             'collection': 'User_login',
             'db': 'Users',
@@ -82,11 +82,11 @@ export const createReport = async (req, res) => {
 };
 
 export const mtbiTest = async(req, res) => {
-    if (!req.headers['x_inf_token']) {
+    if (!req.headers['x_mir_token']) {
         console.error('Access Token not provided');
         return res.status(400).json({message:'Access Token not provided'});
     }
-    const accessToken = req.headers['x_inf_token'];
+    const accessToken = req.headers['x_mir_token'];
     if (!authService.verifyAccessToken(accessToken)){
         console.error('Unauthorized token');
         return res.status(401).json({message:'Unauthorized token'});
@@ -108,7 +108,7 @@ export const mtbiTest = async(req, res) => {
         try {
             const insertResult = await axios.post('http://localhost:3000/gateWayRouter/gateWay',
                 payload,{headers: {
-                        'x_Inf_Token': tokenService.generateAccessToken(payload),
+                        'x_mir_token': tokenService.generateAccessToken(payload),
                         'destinationurl' : 'http://localhost:3000/dbRouter/db/update',
                         'collection':'User_login',
                         'db':'Users'
@@ -133,11 +133,11 @@ export const mtbiTest = async(req, res) => {
 
 export const createConversation = async (req, res) => {
     try {
-        if (!req.headers['x_inf_token']) {
+        if (!req.headers['x_mir_token']) {
             console.error('Access Token not provided');
             return res.status(400).json({message: 'Access Token not provided'});
         }
-        const accessToken = req.headers['x_inf_token'];
+        const accessToken = req.headers['x_mir_token'];
         if (!authService.verifyAccessToken(accessToken)) {
             console.error('Unauthorized token');
             return res.status(401).json({message: 'Unauthorized token'});

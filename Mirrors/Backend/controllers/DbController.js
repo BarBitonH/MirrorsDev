@@ -14,11 +14,11 @@ const mongo =new mongoDbService();
 
 export const DbFind = async (req, res) => {
     try {
-        if (!req.headers['x_inf_token']) {
+        if (!req.headers['x_mir_token']) {
             console.error('Access Token not provided');
             return res.status(400).json({ error: 'Access Token not provided' });
         }
-        const accessToken = req.headers['x_inf_token'];
+        const accessToken = req.headers['x_mir_token'];
         if (!authService.verifyAccessToken(accessToken)) {
             console.error('Unauthorized token');
             return res.status(401).json({ error: 'Unauthorized token' });
@@ -55,11 +55,11 @@ export const DbFind = async (req, res) => {
 
 export const DbInsert = async (req,res) =>{
     try{
-        if(!req.headers['x_inf_token']) {
+        if(!req.headers['x_mir_token']) {
             console.error('Access Token not provided');
             return res.status(400).json({message:'Access Token not provided'});
         }
-        const accessToken = req.headers['x_inf_token'];
+        const accessToken = req.headers['x_mir_token'];
         if(!authService.verifyAccessToken(accessToken)){
             console.error('Unauthorized token');
             return res.status(401).json({message:'Unauthorized token'});
@@ -95,12 +95,12 @@ export const DbInsert = async (req,res) =>{
 }
 export const DbUpdate = async (req, res) => {
     try {
-        const token = req.headers['x_inf_token'];
+        const token = req.headers['x_mir_token'];
         if (!token) {
             console.error('Access Token not provided');
             return res.status(400).json({ error: 'Access Token not provided' });
         }
-        const accessToken = req.headers['x_inf_token'];
+        const accessToken = req.headers['x_mir_token'];
         if(!authService.verifyAccessToken(accessToken)){
             console.error('Unauthorized token');
             return res.status(401).json({message:'Unauthorized token'});

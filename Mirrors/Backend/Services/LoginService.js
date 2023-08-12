@@ -16,25 +16,20 @@ class LoginService {
 
     async login(email, password,  expectedReferer) {
         try {
-            // Input validation
             if (!email || typeof email !== 'string' || !password || typeof password !== 'string') {
                 throw new Error('Email and password must be string and are required');
             }
 
-            // Authenticate user and retrieve user data
             const user = await this.fetchUser(email);
 
-            // Verify password
             const isMatch = await this.verifyPassword(password, user.LoginProperty.password);
 
             if (!isMatch) {
                 throw new Error('Invalid password');
             }
 
-            // Generate a new access and refresh token
-            return {token:this.tokenService.generateAccessToken(user),internal_axon_id:user.internal_axon_id,needquestioneir:user.needQuestioneir}
+            return {x_mir_token:this.tokenService.generateAccessToken(user),internal_axon_id:user.internal_axon_id, needUpdate: user['need_Update'],userType:user.LoginProperty.userType};
 
-            // Return the access and refresh tokens
         } catch (error) {
             console.error(error);
             throw new Error('An error occurred during login');
@@ -48,7 +43,7 @@ class LoginService {
                 headers: {
                     'collection':'User_login',
                     'db':'Users',
-                    'x_inf_token':this.tokenService.generateAccessToken(payload)
+                    'x_mir_token':this.tokenService.generateAccessToken(payload)
                 },
             });
 
@@ -101,7 +96,7 @@ class LoginService {
             jsonToInsert,{headers:{
                 'collection':'User_login',
                 'db':'Users',
-                'x_inf_token':this.tokenService.generateAccessToken(json)
+                'x_mir_token':this.tokenService.generateAccessToken(json)
         }});
         await sendSuccessfullyRegisterUser(jsonToInsert);
         if(results.status === 200){
