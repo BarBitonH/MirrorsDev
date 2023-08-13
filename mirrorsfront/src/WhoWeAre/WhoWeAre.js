@@ -135,13 +135,6 @@ const AudioPlayerContainer = styled.div`
     width: 0px;
 `;
 
-const StyledReactH5AudioPlayer = styled.div`
-    margin-top: 2.5rem;
-    background-color: #fdd835;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-`;
-
 
 
 function WhoWeAre() {
