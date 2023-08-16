@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, {createGlobalStyle} from 'styled-components';
-
+import axios from 'axios';
 const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Arial', sans-serif;
@@ -127,10 +127,10 @@ const TextArea = styled.textarea`
 const CompanyUpdate  = () => {
     const [profilePic, setProfilePic] = useState(null);
     const [userType, setUserType] = useState('company');
-    const [eventCount, setEventCount] = useState(1);
-    const [collabCount, setCollabCount] = useState(1);
-    const [awardCount, setAwardCount] = useState(1);
-    const [testimonialCount, setTestimonialCount] = useState(1);
+    const [events, setEvents] = useState([{ title: '', date: '', description: '' }]);
+    const [collabs, setCollabs] = useState([{ collaboration: '' }]);
+    const [awards, setAwards] = useState([{ award: '' }]);
+    const [testimonials, setTestimonials] = useState([{ testimonial: '' }]);
     const [galleryImages, setGalleryImages] = useState([]);
     const [contactEmail, setContactEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -148,9 +148,11 @@ const CompanyUpdate  = () => {
             reader.readAsDataURL(file);
         }
     };
+
     const addService = () => {
         setServices([...services, '']);
     };
+
 
     const handleServiceChange = (e, index) => {
         const updatedServices = [...services];
@@ -159,24 +161,79 @@ const CompanyUpdate  = () => {
     };
 
     const addEvent = () => {
-        setEventCount(eventCount + 1);
+        setEvents([...events, { title: '', date: '', description: '' }]);
     };
+
 
     const addCollab = () => {
-        setCollabCount(collabCount + 1);
+        setCollabs([...collabs, { collaboration: '' }]);
     };
 
+
     const addAward = () => {
-        setAwardCount(awardCount + 1);
+        setAwards([...awards, { award: '' }]);
     };
 
     const addTestimonial = () => {
-        setTestimonialCount(testimonialCount + 1);
+        setTestimonials([...testimonials, { testimonial: '' }]);
     };
-
+    const handleTestimonialChange = (index, value) => {
+        const newTestimonials = [...testimonials];
+        newTestimonials[index].testimonial = value;
+        setTestimonials(newTestimonials);
+    };
+    const handleEventChange = (index, key, value) => {
+        const newEvents = [...events];
+        newEvents[index][key] = value;
+        setEvents(newEvents);
+    };
+    const handleAwardChange = (index, value) => {
+        const newAwards = [...awards];
+        newAwards[index].award = value;
+        setAwards(newAwards);
+    };
+    const handleCollabChange = (index, value) => {
+        const newCollabs = [...collabs];
+        newCollabs[index].collaboration = value;
+        setCollabs(newCollabs);
+    };
     const handleGalleryFilesUpload = (event) => {
         const files = Array.from(event.target.files);
         setGalleryImages([...galleryImages, ...files]);
+    };
+    const saveProfileToDatabase = async () => {
+        try {
+            const profileData = {
+                internal_axon_id: localStorage.getItem('internal_axon_id'),
+                profileData: {
+                    profilePicture: profilePic,
+                    userType: userType,
+                    events: events,
+                    collabs: collabs,
+                    awards: awards,
+                    testimonials: testimonials,
+                    galleryImages: galleryImages.map(file => URL.createObjectURL(file)), // Convert files to URLs
+                    contactEmail: contactEmail,
+                    phoneNumber: phoneNumber,
+                    website: website,
+                    socialLinks: socialLinks,
+                    companySize: companySize,
+                    specialties: specialties,
+                    services: services
+                }
+            };
+            const token = localStorage.getItem('x_mir_token');
+            const response = await axios.post('http://localhost:3000/dbRouter/db/insert', profileData,
+                {headers:{
+                        'x_mir_token':token,
+                        db:'Users',
+                        collection:'User_profile'
+                }});
+
+            console.log("Data saved successfully:", response.data);
+        } catch (error) {
+            console.error("Error saving data:", error);
+        }
     };
 
     return (
@@ -219,30 +276,61 @@ const CompanyUpdate  = () => {
                 <button onClick={addService}>Add Service</button>
 
                 <Subtitle>Upcoming Events</Subtitle>
-                {Array.from({ length: eventCount }).map((_, idx) => (
+                {events.map((event, idx) => (
                     <div key={idx}>
-                        <Input type="text" placeholder={`Event Title ${idx + 1}`} />
-                        <Input type="date" placeholder={`Event Date ${idx + 1}`} />
-                        <TextArea placeholder={`Event Description ${idx + 1}`}></TextArea>
+                        <Input
+                            type="text"
+                            placeholder={`Event Title ${idx + 1}`}
+                            value={event.title}
+                            onChange={e => handleEventChange(idx, 'title', e.target.value)}
+                        />
+                        <Input
+                            type="date"
+                            placeholder={`Event Date ${idx + 1}`}
+                            value={event.date}
+                            onChange={e => handleEventChange(idx, 'date', e.target.value)}
+                        />
+                        <TextArea
+                            placeholder={`Event Description ${idx + 1}`}
+                            value={event.description}
+                            onChange={e => handleEventChange(idx, 'description', e.target.value)}
+                        ></TextArea>
                     </div>
                 ))}
                 <button onClick={addEvent}>Add Event</button>
 
                 <Subtitle>Previous Collaborations</Subtitle>
-                {Array.from({ length: collabCount }).map((_, idx) => (
-                    <Input key={idx} type="text" placeholder={`Collaboration ${idx + 1}`} />
+                {collabs.map((collab, idx) => (
+                    <Input
+                        key={idx}
+                        type="text"
+                        placeholder={`Collaboration ${idx + 1}`}
+                        value={collab.collaboration}
+                        onChange={e => handleCollabChange(idx, e.target.value)}
+                    />
                 ))}
                 <button onClick={addCollab}>Add Collaboration</button>
 
                 <Subtitle>Company Awards</Subtitle>
-                {Array.from({ length: awardCount }).map((_, idx) => (
-                    <Input key={idx} type="text" placeholder={`Award ${idx + 1}`} />
+                {awards.map((award, idx) => (
+                    <Input
+                        key={idx}
+                        type="text"
+                        placeholder={`Award ${idx + 1}`}
+                        value={award.award}
+                        onChange={e => handleAwardChange(idx, e.target.value)}
+                    />
                 ))}
                 <button onClick={addAward}>Add Award</button>
 
                 <Subtitle>Company Testimonials</Subtitle>
-                {Array.from({ length: testimonialCount }).map((_, idx) => (
-                    <TextArea key={idx} placeholder={`Testimonial ${idx + 1}`}></TextArea>
+                {testimonials.map((testimonial, idx) => (
+                    <TextArea
+                        key={idx}
+                        placeholder={`Testimonial ${idx + 1}`}
+                        value={testimonial.testimonial}
+                        onChange={e => handleTestimonialChange(idx, e.target.value)}
+                    ></TextArea>
                 ))}
                 <button onClick={addTestimonial}>Add Testimonial</button>
 
@@ -258,8 +346,7 @@ const CompanyUpdate  = () => {
                         <label htmlFor="gallery-upload">Upload Gallery Images</label>
                     </>
                 )}
-
-                <button>Save Profile</button>
+                <button onClick={saveProfileToDatabase}>Save Profile</button>
             </Card>
         </Container>
     );

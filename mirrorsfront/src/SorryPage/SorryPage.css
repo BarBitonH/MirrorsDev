@@ -1,0 +1,61 @@
+/* SorryPage.css */
+
+.sorryPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height:110vh;
+    background: linear-gradient(120deg, #fdd835, #fff9c4);
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.logoContainer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    width:300px;
+    height: 100px;
+    margin-inline: auto;
+}
+
+.messageContainer {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+}
+
+.messageContainer h1 {
+    color: #333;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.messageContainer p {
+    color: #555;
+    font-size: 1.2rem;
+    max-width: 600px;
+}
+
+.imageContainer {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+}
+
+.shockedManImage {
+    top:200px;
+    width: 450px;
+    height: 300px;
+}

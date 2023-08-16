@@ -20,7 +20,6 @@ const LoginPage = () => {
             });
 
             if (response.status === 200) {
-                // Navigate to CompanyProfile page after successful login
                 localStorage.setItem('internal_axon_id', response.data.internal_axon_id);
                 localStorage.setItem('x_mir_token', response.data['x_mir_token']);
                 if(response.data.needUpdate) {

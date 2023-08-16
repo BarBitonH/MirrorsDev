@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import styled, {createGlobalStyle} from 'styled-components';
+import axios from 'axios';
+import {useNavigate} from "react-router-dom";
+
 
 // Global Styles
 const GlobalStyle = createGlobalStyle`
@@ -52,7 +55,7 @@ const UploadInput = styled.input`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 400vh;
+  height: 300vh;
   padding: 20px;
 `;
 const Card = styled.div`
@@ -168,15 +171,64 @@ const Button = styled.button`
 const ProfileUpdate = () => {
     const [profilePic, setProfilePic] = useState(null);
     const [userType, setUserType] = useState('applicant');
-    const [experienceCount, setExperienceCount] = useState(1);
-    const [skillCount, setSkillCount] = useState(1);
-    const [educationCount, setEducationCount] = useState(1);
+    const [experiences, setExperiences] = useState([]);
+    const [skills, setSkills] = useState([]);
+    const [educations, setEducations] = useState([]);
+    const [media, setMedia] = useState([]);
     const [galleryImages, setGalleryImages] = useState([]);
-    const [mediaCount, setMediaCount] = useState(1);
+    const [galleryFiles, setGalleryFiles] = useState([]);
+    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
+    const navigate = useNavigate();
+    const handleSubmit = async () => {
+        const formData = new FormData();
+
+        // Append profile picture if it's a File object
+        if (profilePic && profilePic instanceof File) {
+            formData.append('profilePic', profilePic);
+        }
+
+        // Append gallery images
+        for (let file of galleryFiles) {
+            formData.append('gallery[]', file);
+        }
+
+        // Append other profile details
+        formData.append('location', location);
+        formData.append('dob', dob);
+        formData.append('phone', phone);
+        formData.append('email', email);
+        formData.append('aboutMe', aboutMe);
+        formData.append('experiences', experiences);
+        formData.append('skills', skills);
+        formData.append('educations', educations);
+        formData.append('media', media);
+        formData.append('gallery', gallery);
+
+        try {
+            const response = await axios.post('https://localhost:3000/dbRouter/db/insert', formData, {
+                headers: {
+                    'x_mir_token': localStorage.getItem('x_inf_token'),
+                    db: 'Users',
+                    collection: 'User_profile',
+                    'Content-Type': 'multipart/form-data'  // this is crucial when sending FormData
+                }
+            });
+
+            if (response.status === 200) {
+                console.log("Profile updated successfully:", response.data);
+                navigate('/Dashboard')
+            } else {
+                console.error("Error updating profile:", response.data);
+            }
+        } catch (error) {
+            console.error("There was an error sending the request:", error);
+        }
+    };
 
     const addExperience = () => {
-        if (experienceCount < 10) {
-            setExperienceCount(experienceCount + 1);
+        if (experiences.length < 10) {
+            setExperiences([...experiences, {}]);
         }
     };
     const handleProfilePicChange = (event) => {
@@ -188,35 +240,47 @@ const ProfileUpdate = () => {
         }
     };
     const addSkill = () => {
-        if (skillCount < 10) {
-            setSkillCount(skillCount + 1);
+        if (skills.length < 10) {
+            setSkills([...skills, ""]); // append empty skill
         }
     };
-
+    const addGalleryImage = (image) => {
+        setGalleryImages(prevImages => [...prevImages, image]);
+    };
     const addEducation = () => {
-        if (educationCount < 10) {
-            setEducationCount(educationCount + 1);
+        if (educations.length < 10) {
+            setEducations([...educations, {}]);
         }
     };
-    const [galleryFiles, setGalleryFiles] = useState([]);
-    const [phone, setPhone] = useState("");
-    const [email, setEmail] = useState("");
 
     const handleGalleryFilesUpload = (event) => {
         const files = Array.from(event.target.files);
         setGalleryFiles([...galleryFiles, ...files].slice(0, 10)); // Ensuring we never exceed 10 files
     };
-    const addMedia = () => {
-        if (mediaCount < 10) {
-            setMediaCount(mediaCount + 1);
+    const addMedia = (type) => {
+        if (media.length < 10) {
+            setMedia([...media, { type }]);
         }
     };
 
     const handleGalleryImageUpload = (event) => {
         const files = Array.from(event.target.files);
-        setGalleryImages([...galleryImages, ...files]);
-    };
 
+        files.forEach(file => {
+            const reader = new FileReader();
+
+            reader.onloadend = () => {
+                setGalleryImages(prevImages => [...prevImages, reader.result]);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    };
+    function handleExperienceChange(event, index) {
+        const newExperiences = [...experiences];
+        newExperiences[index].description = event.target.value;
+        setExperiences(newExperiences);
+    }
     return (
         <Container>
             <GlobalStyle />
@@ -232,7 +296,7 @@ const ProfileUpdate = () => {
                                 <path d="M21 2H3C1.895 2 1 2.895 1 4v16c0 1.105 0.895 2 2 2h18c1.105 0 2-0.895 2-2V4c0-1.105-0.895-2-2-2zm-1 18H4V4h16.003L20 20zM11 6.414l-2.293 2.293-1.414-1.414L11 3.586l4.707 4.707-1.414 1.414L13 6.414V13h-2V6.414z" />
                             </ImageUploadIcon>
                         </ProfileImage>                  }
-                    <UploadInput type="file" accept="image/*" onChange={handleProfilePicChange} />
+                    <input type="file" onChange={(e) => setProfilePic(e.target.files[0])} />
                 </ProfilePictureContainer>
                 {/* Personal Details */}
                 <h2>Personal Details</h2>
@@ -245,29 +309,39 @@ const ProfileUpdate = () => {
 
                 {/* Experience */}
                 <h2>Experience</h2>
-                {Array.from({ length: experienceCount }).map((_, idx) => (
-                    <div key={idx}>
-                        <Input type="text" placeholder={`Company Name ${idx + 1}`} />
-                        <Input type="text" placeholder={`Role Title ${idx + 1}`} />
-                        <Input type="date" placeholder={`From Date ${idx + 1}`} />
-                        <Input type="date" placeholder={`To Date ${idx + 1}`} />
-                        <TextArea placeholder={`Responsibilities & Achievements ${idx + 1}`} rows="3" />
+                {experiences.map((experience, index) => (
+                    <div key={index}>
+                        {/* Replace this input with whatever structure you need */}
+                        <input
+                            type="text"
+                            placeholder={`Experience ${index + 1}`}
+                            value={experience.description || ''}
+                            onChange={e => handleExperienceChange(e, index)}
+                        />
                     </div>
                 ))}
                 <Button onClick={addExperience}>Add Experience</Button>
 
                 {/* Skills */}
                 <h2>Skills & Endorsements</h2>
-                {Array.from({ length: skillCount }).map((_, idx) => (
-                    <Input key={idx} type="text" placeholder={`Skill ${idx + 1}`} />
+                {skills.map((skill, idx) => (
+                    <Input key={idx} type="text" value={skill} onChange={e => {
+                        const updatedSkills = [...skills];
+                        updatedSkills[idx] = e.target.value;
+                        setSkills(updatedSkills);
+                    }} placeholder={`Skill ${idx + 1}`} />
                 ))}
                 <Button onClick={addSkill}>Add Skill</Button>
 
                 {/* Education */}
                 <h2>Education</h2>
-                {Array.from({ length: educationCount }).map((_, idx) => (
+                {educations.map((education, idx) => (
                     <div key={idx}>
-                        <select>
+                        <select onChange={e => {
+                            const updatedEducations = [...educations];
+                            updatedEducations[idx].degree = e.target.value;
+                            setEducations(updatedEducations);
+                        }}>
                             <option value="bachelors">Bachelors</option>
                             <option value="masters">Masters</option>
                             <option value="phd">PhD</option>
@@ -280,9 +354,13 @@ const ProfileUpdate = () => {
 
                 {/* Media */}
                 <h2>Media & Publications</h2>
-                {Array.from({ length: mediaCount }).map((_, idx) => (
+                {media.map((item, idx) => (
                     <div key={idx}>
-                        <select>
+                        <select onChange={e => {
+                            const updatedMedia = [...media];
+                            updatedMedia[idx].type = e.target.value;
+                            setMedia(updatedMedia);
+                        }}>
                             <option value="book">Book</option>
                             <option value="podcast">Podcast</option>
                         </select>
@@ -302,14 +380,14 @@ const ProfileUpdate = () => {
                 </GalleryContainer>
                 {galleryFiles.length < 10 && (
                     <>
-                        <Input type="file" multiple onChange={handleGalleryFilesUpload} style={{ display: 'none' }} id="gallery-upload" />
+                        <input type="file" multiple onChange={(e) => setGalleryFiles(e.target.files)} />
                         <label htmlFor="gallery-upload" style={{ display: 'block', textAlign: 'center', cursor: 'pointer', color: '#667eea' }}>
                             Upload Gallery Images
                         </label>
                     </>
                 )}
 
-                <Button>Save Profile</Button>
+                <Button onClick={handleSubmit}>Save Profile</Button>
             </Card>
         </Container>
     );
