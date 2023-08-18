@@ -89,21 +89,46 @@
 
 ---
 
-### 🧰 Tech Stack
+Absolutely! Showcasing the tech stack in a stylish and structured manner will help potential contributors, investors, or even users understand the foundation of your project. Here we go:
 
-💡 **Frontend**  
-🖌️ React  
-🎨 Chakra UI  
-🕶️ Styled Components  
-🌌 Three.js  
+<h3 align="center"> 🚀 **Tech Stack** 🚀 </h3>
+<h4 align="center">The Engine Behind MIRRORS</h4>
+<hr/>
+<h4 align="center">🌐 **Frontend** 🌐</h4>
+<div align="center">
+🎨 UI/UX: Crafted with Chakra UI, Material-UI, and Styled Components for a seamless user experience.
+🌊 Animations: Powered by Framer Motion, React Spring, and Three.js for smooth and intuitive animations.
+📦 State Management & Utilities: Enhanced with Formik, React Router, and Yup to streamline the user journey.
+🎧 Media: Integrated React Player and React H5 Audio Player for rich multimedia experiences.
+🌟 Utilities: React Icons, React Typed, and React Scroll adding the magic touch.
 
-💡 **Backend**  
-🌐 Express  
-📦 Mongoose  
-🔑 JWT  
-🪛 Microservices Architecture  
+</div>
+<hr/>
+<h4 align="center">🖥️ **Backend** 🖥️</h4>
+<div align="center">
+🚀 Core: Express.js — Fast, unopinionated, minimalist web framework for Node.js.
+🗄️ Database: Mongoose — Elegant MongoDB object modeling.
+🛡️ Security: jsonwebtoken for authentication & UUID for unique identification.
+✉️ Communication: Axios and Nodemailer for HTTP requests and email services.
+📈 Logging: Winston — A multi-transport async logging library for Node.js.
+🧪 Testing: Jest for delightful JavaScript testing.
 
----
+</div>
+<hr/>
+<h4 align="center">🧬 **Microservices Architecture** 🧬</h4>
+<div align="center">
+🔐 DB Microservice: Manages all interactions with the database.
+🤖 Chat Microservice: Bridges the gap with ChatGPT for revolutionary interview experiences.
+🔒 Login Microservice: Secured user authentication, password hashing & JWT encryption.
+🔀 Adapter Microservice: Handling the core swipe mechanism, the heart of our application.
+
+</div>
+<hr/>
+<div align="center">
+💡 Dive deeper into our codebase? Check our detailed documentation here.
+🌐 Passionate about our stack? Here's our contributing guide to get started.
+
+</div>
 
 ### 🚀 Getting Started
 
