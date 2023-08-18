@@ -179,39 +179,35 @@ const ProfileUpdate = () => {
     const [galleryFiles, setGalleryFiles] = useState([]);
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
-    const navigate = useNavigate();
+    const [location, setLocation] = useState("");
+    const [dob, setDob] = useState("");
+    const [aboutMe, setAboutMe] = useState("");
+    const navigate = useNavigate()
     const handleSubmit = async () => {
-        const formData = new FormData();
+        let data = {
+            location: location,
+            dob: dob,
+            phone: phone,
+            email: email,
+            aboutMe: aboutMe,
+            experiences: experiences,
+            skills: skills,
+            educations: educations,
+            media: media,
+            galleryImages:galleryImages,
+            profilePic:profilePic,
+        };
 
-        // Append profile picture if it's a File object
-        if (profilePic && profilePic instanceof File) {
-            formData.append('profilePic', profilePic);
-        }
 
-        // Append gallery images
-        for (let file of galleryFiles) {
-            formData.append('gallery[]', file);
-        }
 
-        // Append other profile details
-        formData.append('location', location);
-        formData.append('dob', dob);
-        formData.append('phone', phone);
-        formData.append('email', email);
-        formData.append('aboutMe', aboutMe);
-        formData.append('experiences', experiences);
-        formData.append('skills', skills);
-        formData.append('educations', educations);
-        formData.append('media', media);
-        formData.append('gallery', gallery);
-
+        console.log(data);
         try {
-            const response = await axios.post('https://localhost:3000/dbRouter/db/insert', formData, {
+            const response = await axios.post('http://localhost:3000/dbRouter/db/insert', data, {
                 headers: {
-                    'x_mir_token': localStorage.getItem('x_inf_token'),
+                    'x_mir_token': localStorage.getItem('x_mir_token'),
                     db: 'Users',
                     collection: 'User_profile',
-                    'Content-Type': 'multipart/form-data'  // this is crucial when sending FormData
+                    'Content-Type': 'application/json' // make sure the content type is set to JSON
                 }
             });
 
@@ -255,7 +251,10 @@ const ProfileUpdate = () => {
 
     const handleGalleryFilesUpload = (event) => {
         const files = Array.from(event.target.files);
-        setGalleryFiles([...galleryFiles, ...files].slice(0, 10)); // Ensuring we never exceed 10 files
+        setGalleryFiles(prevFiles => {
+            const newFiles = [...prevFiles, ...files];
+            return newFiles.slice(0, 10); // Ensuring we never exceed 10 files
+        });
     };
     const addMedia = (type) => {
         if (media.length < 10) {
@@ -288,24 +287,21 @@ const ProfileUpdate = () => {
                 <Header>
                     <Title>{userType === 'applicant' ? "Applicant Profile" : "Company Profile"}</Title>
                 </Header>
-                <ProfilePictureContainer>
+                <ProfilePictureContainer onClick={() => document.getElementById("profilePicInput").click()}>
                     {profilePic ?
                         <ProfilePicture src={profilePic} alt="Profile" /> :
-                        <ProfileImage>
-                            <ImageUploadIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M21 2H3C1.895 2 1 2.895 1 4v16c0 1.105 0.895 2 2 2h18c1.105 0 2-0.895 2-2V4c0-1.105-0.895-2-2-2zm-1 18H4V4h16.003L20 20zM11 6.414l-2.293 2.293-1.414-1.414L11 3.586l4.707 4.707-1.414 1.414L13 6.414V13h-2V6.414z" />
-                            </ImageUploadIcon>
-                        </ProfileImage>                  }
-                    <input type="file" onChange={(e) => setProfilePic(e.target.files[0])} />
+                        <ProfileImage />
+                    }
+                    <UploadInput id="profilePicInput" type="file" onChange={handleProfilePicChange} />
                 </ProfilePictureContainer>
                 {/* Personal Details */}
                 <h2>Personal Details</h2>
                 <Input type="text" placeholder="Full Name" />
-                <Input type="text" placeholder="Location (City, Country)" />
-                <Input type="text" placeholder="Date of Birth" />
+                <Input type="text" placeholder="Location (City, Country)" onChange={e => setLocation(e.target.value)} value={location} />
+                <Input type="text" placeholder="Date of Birth" onChange={e => setDob(e.target.value)} value={dob} />
                 <Input type="text" value={phone} onChange={e => setPhone(e.target.value)} placeholder="Phone Number" />
                 <Input type="text" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email Address" />
-                <TextArea placeholder="Brief About Me (max 100 words)" rows="4" />
+                <TextArea placeholder="Brief About Me (max 100 words)" rows="4" onChange={e => setAboutMe(e.target.value)} value={aboutMe} />
 
                 {/* Experience */}
                 <h2>Experience</h2>
@@ -375,12 +371,12 @@ const ProfileUpdate = () => {
                 <h2>Gallery</h2>
                 <GalleryContainer>
                     {galleryFiles.map((file, idx) => (
-                        <GalleryImage key={idx} src={URL.createObjectURL(file)} alt={`Gallery Image ${idx + 1}`} />
+                        <GalleryImage key={idx} src={URL.createObjectURL(file)} alt={`Gallery Image ${idx + 1}`} onLoad={() => URL.revokeObjectURL(file)} />
                     ))}
                 </GalleryContainer>
                 {galleryFiles.length < 10 && (
                     <>
-                        <input type="file" multiple onChange={(e) => setGalleryFiles(e.target.files)} />
+                        <input id="gallery-upload" type="file" multiple onChange={handleGalleryFilesUpload} style={{ display: 'none' }} />
                         <label htmlFor="gallery-upload" style={{ display: 'block', textAlign: 'center', cursor: 'pointer', color: '#667eea' }}>
                             Upload Gallery Images
                         </label>
