@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './ProfileInfo.css';
 
 function ProfileInfo({ profileData }) {
     const [isEditing, setIsEditing] = useState(false);
     const [editedData, setEditedData] = useState(profileData);
-
+    console.log(profileData);
     const handleEdit = (field, value) => {
         setEditedData({
             ...editedData,
@@ -21,7 +21,7 @@ function ProfileInfo({ profileData }) {
     return (
         <div className="profile-info-container">
             <div className="profile-pic">
-                <img src={profileData.profilePic} alt="User Profile" />
+                <img src={profileData.profilePicture} alt="User Profile" />
             </div>
 
             {isEditing ? (

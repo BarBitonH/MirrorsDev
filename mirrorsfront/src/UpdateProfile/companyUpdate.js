@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Arial', sans-serif;
-    background-color: #FFF8E1; /* light yellow background */
+    background-color: #FFF8E1; 
   }
 `;
 
@@ -35,7 +35,7 @@ const ProfilePicture = styled.img`
 `;
 
 const UploadInput = styled.input`
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   width: 130px;
