@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled, {createGlobalStyle} from 'styled-components';
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Arial', sans-serif;
@@ -125,6 +126,7 @@ const TextArea = styled.textarea`
 `;
 
 const CompanyUpdate  = () => {
+    const navigate = useNavigate();
     const [profilePic, setProfilePic] = useState(null);
     const [userType, setUserType] = useState('company');
     const [events, setEvents] = useState([{ title: '', date: '', description: '' }]);
@@ -229,7 +231,9 @@ const CompanyUpdate  = () => {
                         db:'Users',
                         collection:'User_profile'
                 }});
-
+            if(response.status === 200){
+                navigate('/CompanyDashboard')
+            }
             console.log("Data saved successfully:", response.data);
         } catch (error) {
             console.error("Error saving data:", error);
