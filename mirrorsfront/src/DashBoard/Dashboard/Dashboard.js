@@ -68,13 +68,10 @@ const Dashboard = () => {
                 <ProfileInfo data={userData.profile} />
                 <Gallery images={userData.galleryImages} />
 
-                {/* Display notifications if they exist */}
                 {userData.notifications && <Notifications list={userData.notifications} />}
 
-                {/* Display metrics if they exist */}
                 {userData.metrics && <Metrics data={userData.metrics} />}
 
-                {/* Add more components as needed */}
             </div>
         </div>
     );

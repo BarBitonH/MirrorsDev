@@ -26,7 +26,6 @@ function Gallery({ images }) {
                     >
                         <img src={image.url} alt={image.alt || 'Gallery Image'} />
                         <div className="image-actions">
-                            {/* Placeholder for icons/actions, such as delete or info */}
                         </div>
                     </div>
                 ))}
@@ -40,7 +39,6 @@ function Gallery({ images }) {
             )}
 
             <div className="image-upload">
-                {/* Placeholder for image upload functionality */}
                 <span>Upload</span>
             </div>
         </div>

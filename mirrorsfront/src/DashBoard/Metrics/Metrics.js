@@ -12,7 +12,6 @@ function Metrics({ data }) {
                 <span className="metric-value">{data.totalEvents}</span>
                 <span className="metric-title">Total Events</span>
             </div>
-            // Add more metrics as needed
         </div>
     );
 }

@@ -56,8 +56,8 @@ const Container = styled.div`
 const Card = styled.div`
   width: 50%;
   background: white;
-  border-radius: 15px; /* rounded corners */
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* subtle shadow */
+  border-radius: 15px; 
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); 
   padding: 40px;
   box-sizing: border-box;
 `;
@@ -71,7 +71,7 @@ const Header = styled.div`
 
 const Title = styled.h1`
   font-size: 24px;
-  color: #FFC107; /* Google's Material Design Yellow */
+  color: #FFC107;
   margin: 0;
 `;
 
@@ -85,7 +85,7 @@ const Input = styled.input`
   padding: 10px 15px;
   margin: 10px 0;
   border: 1px solid #FFEB3B; /* bright yellow border */
-  border-radius: 7px; /* rounded corners */
+  border-radius: 7px; 
   font-size: 16px;
   box-sizing: border-box;
   transition: border-color 0.3s;

@@ -14,7 +14,7 @@ describe('updateDB()', () => {
             logger.log('Valid Find Test: Passed');
         } catch (error) {
             logger.log('Valid Find Test: Error encountered - ' + error.message);
-            throw error;  // Re-throw the error to ensure the test fails
+            throw error;
         }
     });
 
@@ -35,5 +35,4 @@ describe('updateDB()', () => {
         await expect(service.updateDB(db, query, update, collection, type)).rejects.toThrow('Not Exists Method for update');
     });
 
-    // ... Additional updateDB() tests
 });

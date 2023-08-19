@@ -17,12 +17,12 @@
     top: 100px;
     bottom: 30px;
     width: 50%;
-    height:100%;/* Adjust the width of the image area */
+    height:100%;
     background-image: url('../assets/woman_login.png');
-    background-size: cover; /* Cover the defined width area */
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: bottom;
-    z-index: 0; /* Place the image below the content */
+    z-index: 0;
 }
 
 @keyframes gradient {
@@ -70,7 +70,7 @@
     top: 20px;
     left: 20px;
     width: 300px;
-    height: 100px;/* You can adjust the width as needed */
+    height: 100px;
 }
 
 @keyframes fade-in {

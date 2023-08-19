@@ -19,7 +19,6 @@ body, html {
     z-index: 1000;
 }
 
-/* Multiple Keyframes for animations */
 
 @keyframes spin {
     0% {
@@ -60,7 +59,6 @@ body, html {
     }
 }
 
-/* Animated shimmer background for a dynamic feel */
 .loading-container::before {
     content: "";
     position: absolute;
@@ -74,7 +72,6 @@ body, html {
     animation: shimmer 3s infinite;
 }
 
-/* Circular layers for the loader with intricate shadow effects */
 .loading-animation {
     position: relative;
     width: 250px;
@@ -138,7 +135,6 @@ body, html {
     text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Animated concentric circles around the main loader */
 .concentric-circle {
     position: absolute;
     top: 50%;
@@ -167,10 +163,8 @@ body, html {
     animation: spin 30s linear infinite;
 }
 
-/* For enhanced interaction */
 .loading-animation:hover .inner-circle::before {
     font-size: 26px;
     color: #ffffff;
 }
 
-/* More designs, effects, and variations can be added to approach 400 lines or as needed. */

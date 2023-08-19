@@ -238,7 +238,6 @@ function CalendarOverview() {
     return (
         <CalendarWrapper>
             <Title titleText="Calendar Overview" subtitleText="Your upcoming events" />
-            {/* Here you would typically render a calendar component or event list */}
             <p>Dummy Calendar Placeholder</p>
         </CalendarWrapper>
     );
@@ -380,7 +379,6 @@ function Analytics() {
     return (
         <Section>
             <Title titleText="Analytics" subtitleText="Insights and Overview" />
-            {/* Here you would typically render your pie chart or other analytics component */}
             <p>Dummy Pie Chart Placeholder</p>
         </Section>
     );
