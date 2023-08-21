@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './JobList.css';
 
 function JobList() {
@@ -13,33 +13,32 @@ function JobList() {
         location: '',
         type: '',
         description: '',
-        relevantSkills: [''],  // Using an array for skills
+        relevantSkills: [''],
         companyOffering: '',
         whatWeAreLookingFor: ''
     });
+
     const handleInputChange = (event) => {
         const {name, value} = event.target;
         setNewJob(prevState => ({...prevState, [name]: value}));
     };
 
     const addNewJob = () => {
-        // Simple logic to add new job to the list. Adjust as needed.
         setJobs(prevJobs => [...prevJobs, {...newJob, id: prevJobs.length + 1}]);
         setNewJob({
             title: '',
             location: '',
             type: '',
             description: '',
-            relevantSkills: '',
-            comapnyOffering: '',
-            whatWeAreLookginFor: ''
-        });  // Reset form
-        setShowModal(false);  // Close modal
+            relevantSkills: [''],
+            companyOffering: '',
+            whatWeAreLookingFor: ''
+        });
+        setShowModal(false);
     };
 
     return (
         <div className="jobListContainer">
-
             <button className="addJobButton" onClick={() => setShowModal(true)}>Add Job</button>
 
             {jobs.length === 0 ? (
@@ -52,6 +51,16 @@ function JobList() {
                         <h3>{job.title}</h3>
                         <p className="location">{job.location}</p>
                         <p className="jobType">{job.type}</p>
+                        <div className="jobDescription">{job.description}</div>
+                        <ul className="jobSkills">
+                            {job.relevantSkills && Array.isArray(job.relevantSkills) && job.relevantSkills.map((skill, index) => <li key={index}>{skill}</li>)}
+                        </ul>
+                        <div className="jobOffers">
+                            <strong>Company Offers:</strong> {job.companyOffering}
+                        </div>
+                        <div className="jobLookingFor">
+                            <strong>We're Looking For:</strong> {job.whatWeAreLookingFor}
+                        </div>
                     </div>
                 ))
             )}
@@ -79,7 +88,7 @@ function JobList() {
                                 onChange={handleInputChange}
                             />
                         </div>
-                        <div className="modealSection">
+                        <div className="modalSection">
                             <textarea
                                 name="description"
                                 placeholder="Job Description"
@@ -114,7 +123,6 @@ function JobList() {
                                         }}
                                     />
                                 </div>
-
                             ))}
                             <button onClick={() => setNewJob(prev => ({
                                 ...prev,
@@ -124,30 +132,27 @@ function JobList() {
                             </button>
                         </div>
                         <div className="modalSection">
-                <textarea
-                    name="companyOffering"
-                    placeholder="What the company offers"
-                    value={newJob.companyOffering}
-                    onChange={handleInputChange}
-                />
-
+                            <textarea
+                                name="companyOffering"
+                                placeholder="What the company offers"
+                                value={newJob.companyOffering}
+                                onChange={handleInputChange}
+                            />
                         </div>
                         <div className="modalSection">
-                <textarea
-                    name="whatWeAreLookingFor"
-                    placeholder="What we are looking for"
-                    value={newJob.whatWeAreLookingFor}
-                    onChange={handleInputChange}
-                />
+                            <textarea
+                                name="whatWeAreLookingFor"
+                                placeholder="What we are looking for"
+                                value={newJob.whatWeAreLookingFor}
+                                onChange={handleInputChange}
+                            />
                         </div>
-
                         <div className="modalSection">
                             <button className="addJobButton" onClick={addNewJob}>Add Job</button>
                         </div>
                     </div>
                 </div>
             )}
-
         </div>
     );
 }

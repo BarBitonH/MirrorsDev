@@ -51,7 +51,7 @@
     line-height: 1.6em;
 }
 
-.job .location, .job .jobType {
+.job .location, .job .jobType   {
     background-color: #fdd835;
     border-radius: 20px;
     padding: 7px 14px;
@@ -60,7 +60,65 @@
     font-weight: bold;
     color: white;
 }
+.modalTextarea {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
 
+.skillEntry {
+    display: flex;
+    align-items: center;
+}
+
+.skillEntry .modalInput {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.addSkillButton {
+    background: linear-gradient(120deg, #fdd835, #fff9c4);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.jobDescription {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-radius: 4px;
+}
+
+.jobSkills {
+    list-style: none;
+    padding: 0;
+    background: linear-gradient(120deg, #fdd835, #fff9c4);
+
+}
+
+.jobSkills li {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+}
+
+.jobOffers, .jobLookingFor {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 50px;
+    background: linear-gradient(120deg, #fdd835, #fff9c4);
+}
+.addSkillButton:hover {
+    background-color: #005fa3;
+}
 /* Message for an Empty List */
 .emptyMessage {
     text-align: center;
@@ -76,6 +134,11 @@
 @keyframes fadeIn {
     from { opacity: 0; }
     to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
 }
 
 .jobListContainer {
@@ -105,17 +168,17 @@
     padding: 2em;
     box-shadow: 5px 5px 15px #c2c2c2, -5px -5px 15px #ffffff;
     position: relative;
+    animation: scaleIn 0.3s ease-out;
 }
 
 .modalClose {
     position: absolute;
-    top:1px;
+    top: 1px;
     right: 15px;
     cursor: pointer;
     font-size: 1.5em;
     color: gray;
     height: 3px;
-
 }
 
 .modalTitle {
@@ -134,9 +197,10 @@
 
 .modalSection {
     margin-top: 15px;
+    margin-bottom: 15px;
 }
 
-.addSkillButton {
+.modalButton {
     background-color: #fdd835;
     color: white;
     border: none;
@@ -149,9 +213,39 @@
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.15), -3px -3px 10px #ffffff;
 }
 
-.addSkillButton:hover {
+.modalButton:hover {
     transform: translateY(-3px);
     box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2), -3px -3px 15px #ffffff;
+}
+
+.modalLabel {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    display: block;
+    color: #555;
+}
+
+.skillInputWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.skillInputWrapper > input[type="text"] {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.removeSkillButton {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.removeSkillButton:hover {
+    background-color: #c0392b;
 }
 
 /* Input styles */
