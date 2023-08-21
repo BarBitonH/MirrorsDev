@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './SideBar.css';
+import { useNavigate } from "react-router-dom";
 
 const sections = [
     { name: "Dashboard", icon: "🏠" },
@@ -7,11 +8,20 @@ const sections = [
     { name: "Gallery", icon: "🖼️" },
     { name: "User Stats", icon: "📊" },
     { name: "Settings", icon: "⚙️" },
+    { name: "Jobs List", icon: "📋", route: "/JobList" },  // Added a route key
 ];
 
 function Sidebar() {
     const [activeSection, setActiveSection] = useState("Dashboard");
     const [darkMode, setDarkMode] = useState(false);
+    const navigate = useNavigate();  // Call useNavigate here
+
+    const handleSectionClick = (section) => {
+        setActiveSection(section.name);
+        if (section.route) {
+            navigate(section.route);  // Navigate to the route associated with the section
+        }
+    }
 
     return (
         <div className={`sidebar ${darkMode ? 'dark' : ''}`}>
@@ -23,7 +33,7 @@ function Sidebar() {
                     <li
                         key={section.name}
                         className={activeSection === section.name ? 'active' : ''}
-                        onClick={() => setActiveSection(section.name)}
+                        onClick={() => handleSectionClick(section)}
                     >
                         <span>{section.icon}</span> {section.name}
                     </li>

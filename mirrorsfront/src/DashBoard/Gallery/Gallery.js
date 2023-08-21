@@ -24,7 +24,6 @@ function Gallery({ images }) {
                         className="gallery-item"
                         onClick={() => openLightbox(image)}
                     >
-                        <img src={image.url} alt={image.alt || 'Gallery Image'} />
                         <div className="image-actions">
                         </div>
                     </div>

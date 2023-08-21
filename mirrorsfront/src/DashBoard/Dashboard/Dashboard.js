@@ -65,7 +65,7 @@ const Dashboard = () => {
             <div className="dashboard-main">
                 {selectedModalContent && <Modal content={selectedModalContent} onClose={closeModal} />}
 
-                <ProfileInfo profileData={userData} />
+                <ProfileInfo data={userData} />
                 <Gallery images={userData.galleryImages} />
 
                 {userData.notifications && <Notifications list={userData.notifications} />}

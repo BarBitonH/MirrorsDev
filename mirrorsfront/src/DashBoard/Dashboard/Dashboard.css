@@ -1,12 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
 .dashboard {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     padding: 20px;
-    font-family: Arial, sans-serif;
-    background-color: #f3f4f6;
     height: 100vh;
-    overflow-y:auto;
+    overflow-y: auto;
+    transition: all 0.3s;
+    background: linear-gradient(120deg, #fdd835, #fff9c4);
 }
 
 .dashboard-main {
@@ -19,7 +25,7 @@
 
 .sidebar {
     width: 250px;
-    background-color: #2c3e50;
+    background: linear-gradient(120deg, #fdd835, #fff9c4);
     padding: 20px;
     border-radius: 10px;
     color: white;
@@ -31,18 +37,30 @@
     padding: 10px;
     display: block;
     border-radius: 5px;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.2s;
 }
 
 .sidebar a:hover {
     background-color: #34495e;
+    transform: scale(1.05);
 }
 
-.profile-info {
+.sidebar a:focus, .sidebar a:active {
+    outline: none;
+    background-color: #2c3e50;
+}
+
+.profile-info, .notifications, .metrics {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+}
+
+.profile-info:hover, .notifications:hover, .metrics:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transform: translateY(-3px);
 }
 
 .gallery {
@@ -55,36 +73,20 @@
     max-width: 100%;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+}
+
+.gallery img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
 .modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    z-index: 10;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    max-width: 70vw;
+    /* ... previous styles ... */
 }
 
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.4);
-    z-index: 9;
-}
-
-.notifications, .metrics {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    /* ... previous styles ... */
 }
 
 .dashboard > div {
@@ -93,5 +95,18 @@
     color: #e74c3c;
 }
 
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
+    }
 
+    .sidebar {
+        width: 100%;
+        margin-bottom: 20px;
+    }
 
+    .dashboard-main {
+        margin-left: 0;
+    }
+}
