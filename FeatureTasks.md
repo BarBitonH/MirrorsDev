@@ -1,5 +1,4 @@
-# 🚀 Mirrors Roadmap 2023 🚀
-
+# 🪞 Mirrors Roadmap 2023 🪞
 > "Mirrors - Unveiling the next generation of job matching."
 
 <p align="center">
