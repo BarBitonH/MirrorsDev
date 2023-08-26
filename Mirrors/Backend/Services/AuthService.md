@@ -27,17 +27,17 @@ Before diving in, ensure you've got the necessary dependencies:
 npm install jsonwebtoken
 Note: The crypto module is bundled with Node.js, so no separate installation is needed.
 
-🚀 Methods
+## 🚀 Methods
 🧪 Constructor
 Kickstarts the AuthService class.
 
-secretKey 📜 (String): The linchpin for JWT verification.
+## secretKey 📜 (String): The linchpin for JWT verification.
 🔐 verifyAccessToken
 Authenticate and validate JWT tokens.
 
-token 🔖 (String): The JWT token awaiting verification.
-Returns: 🔄 Decoded payload if the token passes verification.
-Throws: ❌ An error if the token proves invalid.
+# token 🔖 (String): The JWT token awaiting verification.
+# Returns: 🔄 Decoded payload if the token passes verification.
+# Throws: ❌ An error if the token proves invalid.
 🔍 verifyAccessUrl
 Cross-checks the referer in the request headers against a pre-defined referer.
 
