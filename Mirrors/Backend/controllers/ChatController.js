@@ -9,7 +9,6 @@ import * as path from "path";
 dotenv.config({path:path.resolve('C:\\Users\\Admin\\WebstormProjects\\Mirrors\\Backend\\secrets.env')});
 const gptService = new ChatGptService();
 const SECRET_KEY_INTERNAL = process.env.JWT_INTERNAL_SECRET;
-const SECRET_KEY_EXTERNAL = process.env.JWT_EXTERNAL_SECRET;
 const ACCESS_TOKEN_EXPIRATION_TIME = process.env.JWT_EXP_TIME;
 const REFRESH_TOKEN_EXPIRATION_TIME = process.env.JWT_REFRESH_TIME;
 const authService = new AuthService(SECRET_KEY_INTERNAL);
