@@ -25,9 +25,8 @@
 Before diving in, ensure you have the necessary dependencies:
 
 \```bash
-npm install jsonwebtoken
+npm install jsonwebtoken``/
 # Note: The crypto module is bundled with Node.js, so no separate installation is needed.
-\```
 
 ---
 
