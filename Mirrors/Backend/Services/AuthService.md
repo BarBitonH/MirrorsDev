@@ -30,40 +30,40 @@ Note: The crypto module is bundled with Node.js, so no separate installation is 
 
 ---
 
-### 🚀 Methods
+# 🚀 Methods
 ## 🧪 Constructor
 Kickstarts the AuthService class.
 
-## secretKey 📜 (String): The linchpin for JWT verification.
-# 🔐 verifyAccessToken
+# secretKey 📜 (String): The linchpin for JWT verification.
+### 🔐 verifyAccessToken
 Authenticate and validate JWT tokens.
 
-# token 🔖 (String): The JWT token awaiting verification.
-# Returns: 🔄 Decoded payload if the token passes verification.
-# Throws: ❌ An error if the token proves invalid.
+### token 🔖 (String): The JWT token awaiting verification.
+### Returns: 🔄 Decoded payload if the token passes verification.
+### Throws: ❌ An error if the token proves invalid.
 
-### 🔍 verifyAccessUrl
-# Cross-checks the referer in the request headers against a pre-defined referer.
+## 🔍 verifyAccessUrl
+ Cross-checks the referer in the request headers against a pre-defined referer.
 
 ## req 🌐 (Object): The HTTP request.
-# expectedReferer 🔗 (String): The anticipated referer URL.
-# Returns: ✅/❌ true if they align, false otherwise.
-# 🔒 encrypt
-# Turns plain text into a jumble using secrets & IV from env variables.
+### expectedReferer 🔗 (String): The anticipated referer URL.
+### Returns: ✅/❌ true if they align, false otherwise.
+### 🔒 encrypt
+### Turns plain text into a jumble using secrets & IV from env variables.
 
 ## input_string 📝 (String): The text awaiting encryption.
-# Returns: 🔏 Hexadecimal representation of the encrypted string.
-# 🔓 decrypt
-# Deciphers the encrypted text using a secret and IV from env variables.
+### Returns: 🔏 Hexadecimal representation of the encrypted string.
+### 🔓 decrypt
+### Deciphers the encrypted text using a secret and IV from env variables.
 
 ## encrypted_string 🔒 (String): The text in its encrypted form.
-# secret 📜 (String): The decryption keystone.
-# Returns: 📝 The original string.
+### secret 📜 (String): The decryption keystone.
+### Returns: 📝 The original string.
 
-### 💡 Usage
-# To weave AuthService into your code:
+# 💡 Usage
+ To weave AuthService into your code:
 
-javascript
+## javascript
 
 [ ] Copy code
 
