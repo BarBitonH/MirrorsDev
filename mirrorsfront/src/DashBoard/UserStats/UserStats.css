@@ -1,0 +1,163 @@
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.05);
+}
+
+.section {
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    background-color: #ffffff;
+    transition: all 0.3s ease-out;
+    cursor: pointer;
+}
+
+.section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.section h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 5px;
+}
+
+.section ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.section li {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    color: #666;
+    transition: color 0.3s ease-out;
+}
+
+.section li:hover {
+    color: #444;
+}
+
+.events-section {
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+}
+
+.collabs-section {
+    background-image: url('path_to_your_texture.png');
+    background-size: cover;
+}
+
+.awards-section::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: gold;
+    border-radius: 50%;
+    top: -20px;
+    right: -20px;
+    z-index: -1;
+}
+
+.testimonials-section {
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.skills-section {
+    overflow: hidden;
+}
+
+.skills-section li {
+    transform: translateX(-100%);
+    animation: slideIn 0.5s forwards;
+}
+
+.skills-section li:hover {
+    animation: pulse 0.5s infinite;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .stats-container {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .section {
+        margin-bottom: 20px;
+    }
+
+    .section h2 {
+        font-size: 1.3em;
+    }
+
+    .section li {
+        font-size: 1em;
+    }
+}
+
+.section ul {
+    margin: 0;
+}
+
+.section li:last-child {
+    margin-bottom: 0;
+}
+
+.events-section::after,
+.collabs-section::after,
+.awards-section::after,
+.testimonials-section::after,
+.skills-section::after {
+    content: '';
+    display: block;
+    height: 4px;
+    width: 50px;
+    background-color: #e0e0e0;
+    margin-top: 15px;
+}
+
+.section a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease-out;
+}
+
+.section a:hover {
+    color: #0056b3;
+}
+
+.section p {
+    color: #888;
+    font-style: italic;
+}
+

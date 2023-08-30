@@ -1,5 +1,6 @@
 import axios from "axios";
 import axiosRetry from 'axios-retry';
+import EmailService from "./EmailService.js";
 
 class RecoveryService {
     constructor() {
@@ -7,21 +8,21 @@ class RecoveryService {
             retries: 3,
             retryDelay: (retryCount) => retryCount * 1000,
         });
-
     }
-
 
     async updateUserPassword(userId, newPassword, token) {
         try {
             const queryUserToFind = {'user.email': userId};
             const queryPasswordToFind = {'user.password': newPassword};
 
-            const res = await axios.post('/gateway', {
+            const res = await axios.post('http://localhost:3000/dbRouter/db/update', {
                 queryTile: 'user.email',
                 queryData: userId,
-                update: {$set: {'user.password': newPassword}}
+                method:'$set',
+                update: {'user.password': newPassword}
             }, {
-                collection: 'users',
+                collection: 'User_login',
+                db:'Users',
                 'x_mir_token': token
             });
 
@@ -37,13 +38,10 @@ class RecoveryService {
             }
         } catch (error) {
             if (error.response) {
-                // The request was made, but the server responded with an error status code
                 console.error('Server responded with an error:', error.response.status);
             } else if (error.request) {
-                // The request was made, but no response was received
                 console.error('No response received from the server');
             } else {
-                // Other errors
                 console.error('An error occurred:', error.message);
             }
             throw error;
@@ -51,3 +49,4 @@ class RecoveryService {
     }
 }
 export default RecoveryService;
+

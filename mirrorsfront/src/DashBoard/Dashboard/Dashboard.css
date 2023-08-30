@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.dashboard {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
+    transition: all 0.3s;
+    background: linear-gradient(120deg, #fdd835, #fff9c4);
+}
+
+.dashboard-main {
+    flex: 1;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar {
+    width: 250px;
+    background: linear-gradient(120deg, #fdd835, #fff9c4);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.sidebar a:hover {
+    background-color: #34495e;
+    transform: scale(1.05);
+}
+
+.sidebar a:focus, .sidebar a:active {
+    outline: none;
+    background-color: #2c3e50;
+}
+
+.profile-info, .notifications, .metrics {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+}
+
+.profile-info:hover, .notifications:hover, .metrics:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transform: translateY(-3px);
+}
+
+.gallery {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.gallery img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+}
+
+.gallery img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.modal {
+    /* ... previous styles ... */
+}
+
+.modal-overlay {
+    /* ... previous styles ... */
+}
+
+.dashboard > div {
+    text-align: center;
+    margin-top: 20px;
+    color: #e74c3c;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .dashboard-main {
+        margin-left: 0;
+    }
+}

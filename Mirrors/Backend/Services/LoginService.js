@@ -88,8 +88,7 @@ class LoginService {
         json['password'] = encryptedPassword;
         const jsonToInsert = {
             'internal_axon_id':uuid(),
-            'is_approved':false,
-
+            'need_Update':true,
             'LoginProperty':json
         }
         const results = await axios.post('http://localhost:3000/dbRouter/db/insert',

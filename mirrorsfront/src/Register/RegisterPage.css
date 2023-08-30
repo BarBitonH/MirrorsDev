@@ -36,12 +36,12 @@
 }
 
 .welcome-box .world-of-mirrors {
-    font-size: 1.5rem; /* Size of "The World of Mirrors" title */
+    font-size: 1.5rem;
     margin-top: 50px;
 }
 
 .welcome-box .subtitle {
-    font-size: 0.8rem; /* Size of the subtitle */
+    font-size: 0.8rem;
     margin-top: 50px;
 }
 
