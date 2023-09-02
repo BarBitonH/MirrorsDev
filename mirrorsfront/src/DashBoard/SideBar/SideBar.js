@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const sections = [
     { name: "Dashboard", icon: "🏠" },
     { name: "Profile Info", icon: "👤" },
-    { name: "Gallery", icon: "🖼️" },
+    { name: "Find You Career Match", icon: "🖼️",route:"/ActionFlow" },
     { name: "User Stats", icon: "📊" },
     { name: "Settings", icon: "⚙️" },
     { name: "Jobs List", icon: "📋", route: "/JobList" },  // Added a route key

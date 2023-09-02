@@ -1,5 +1,5 @@
 import express from "express";
-import {DbUpdate,DbInsert,DbFind} from "../controllers/DbController.js";
+import {DbUpdate, DbInsert, DbFind, DbFindAll} from "../controllers/DbController.js";
 import bodyParser from 'body-parser'
 const dbRouter = express.Router();
 dbRouter.use(express.json())
@@ -8,4 +8,5 @@ dbRouter.use(bodyParser.urlencoded({limit:'100mb', extended: true}));
 dbRouter.post('/db/update',DbUpdate);
 dbRouter.post('/db/find',DbFind);
 dbRouter.post('/db/insert',DbInsert);
+dbRouter.post('/db/findAll',DbFindAll);
 export default dbRouter;

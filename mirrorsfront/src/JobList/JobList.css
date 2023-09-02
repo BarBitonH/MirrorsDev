@@ -52,13 +52,13 @@
 }
 
 .job .location, .job .jobType   {
-    background-color: #fdd835;
+    background: linear-gradient(120deg, #fdd835, #fff9c4);
     border-radius: 20px;
     padding: 7px 14px;
     margin-right: 14px;
     margin-top: 14px;
     font-weight: bold;
-    color: white;
+    color: black;
 }
 .modalTextarea {
     width: 90%;
@@ -91,23 +91,25 @@
 .jobDescription {
     margin: 10px 0;
     padding: 10px;
-    background-color: #f7f7f7;
-    border-radius: 4px;
+    background: linear-gradient(120deg, #fdd835, #fff9c4);
+    border-radius: 30px;
 }
 
 .jobSkills {
     list-style: none;
     padding: 0;
+    border-radius: 20px;
     background: linear-gradient(120deg, #fdd835, #fff9c4);
 
 }
 
 .jobSkills li {
     display: inline-block;
+    height: 35px;
     margin: 5px;
     padding: 5px 10px;
-    background-color: #e0e0e0;
-    border-radius: 4px;
+    background-color: #f3b534;
+    border-radius: 50px;
 }
 
 .jobOffers, .jobLookingFor {

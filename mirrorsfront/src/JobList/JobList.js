@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './JobList.css';
+import axios from "axios";
+import {v4 as uuidv4} from 'uuid';
 
 function JobList() {
-    const [jobs, setJobs] = useState([
-        {id: 1, title: 'Frontend Developer', location: 'New York', type: 'Full-Time'},
-        {id: 2, title: 'Backend Developer', location: 'London', type: 'Remote'}
-    ]);
+    const [jobs, setJobs] = useState([]);
 
     const [showModal, setShowModal] = useState(false);
     const [newJob, setNewJob] = useState({
@@ -17,26 +16,81 @@ function JobList() {
         companyOffering: '',
         whatWeAreLookingFor: ''
     });
+    const fetchData = async () => {
+        const headers = {
+            'x_mir_token': localStorage.getItem('x_mir_token'),
+            'Content-Type': 'application/json',
+            db: 'Users',
+            collection: 'user_action'
+        };
+
+        const dataToSend = {
+            queryData: localStorage.getItem('internal_axon_id'),
+            queryTitle: 'internal_axon_id'
+        };
+
+        try {
+            const response = await axios.post('http://localhost:3000/dbRouter/db/FindAll', dataToSend, { headers: headers });
+
+            const internalJobIds = response.data.map(item => item.internal_job_id);
+            localStorage.setItem('internal_job_ids', JSON.stringify(internalJobIds));
+
+            setJobs(response.data);
+        } catch (error) {
+            console.error("Error fetching jobs:", error);
+        }
+    };
+    useEffect(() => {
+        fetchData();
+    }, []);
+
 
     const handleInputChange = (event) => {
         const {name, value} = event.target;
         setNewJob(prevState => ({...prevState, [name]: value}));
     };
 
-    const addNewJob = () => {
-        setJobs(prevJobs => [...prevJobs, {...newJob, id: prevJobs.length + 1}]);
-        setNewJob({
-            title: '',
-            location: '',
-            type: '',
-            description: '',
-            relevantSkills: [''],
-            companyOffering: '',
-            whatWeAreLookingFor: ''
-        });
-        setShowModal(false);
-    };
+    const addNewJob = async () => {
+        // Define headers
+        const headers = {
+            'x_mir_token' : localStorage.getItem('x_mir_token'),
+            'Content-Type': 'application/json',
+            db:'Users',
+            collection:'user_action'
+        };
+        const data = {
+            internal_axon_id: localStorage.getItem('internal_axon_id'),
+            internal_job_id: uuidv4(),
+            title: newJob.title,
+            location: newJob.location,
+            type: newJob.type,
+            description: newJob.description,
+            relevantSkills: newJob.relevantSkills,
+            companyOffering: newJob.companyOffering,
+            whatWeAreLookingFor: newJob.whatWeAreLookingFor,
+            will_interactions:[],
+            blocked_interactions:[],
+            matches: []
+        };
 
+        try {
+            // Sending Axios POST request using await
+           await axios.post('http://localhost:3000/dbRouter/db/insert', data, { headers: headers });
+            setJobs(prevJobs => [...prevJobs, {...newJob, id: prevJobs.length + 1}]);
+            setNewJob({
+                title: '',
+                location: '',
+                type: '',
+                description: '',
+                relevantSkills: [''],
+                companyOffering: '',
+                whatWeAreLookingFor: ''
+            });
+            setShowModal(false);
+        } catch (error) {
+            console.error("Error adding the job:", error);
+        }
+    };
     return (
         <div className="jobListContainer">
             <button className="addJobButton" onClick={() => setShowModal(true)}>Add Job</button>

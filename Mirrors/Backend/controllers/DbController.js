@@ -52,6 +52,43 @@ export const DbFind = async (req, res) => {
         }
     }
 }
+export const DbFindAll = async (req, res) => {
+    try {
+        if (!req.headers['x_mir_token']) {
+            console.error('Access Token not provided');
+            return res.status(400).json({error: 'Access Token not provided'});
+        }
+        const accessToken = req.headers['x_mir_token'];
+        if (!authService.verifyAccessToken(accessToken)) {
+            console.error('Unauthorized token');
+            return res.status(401).json({error: 'Unauthorized token'});
+        }
+        if (!req.headers.db || !req.headers.collection || !req.body.queryData || !req.body.queryTitle ||
+            typeof req.body.queryTitle !== 'string' || typeof req.body.queryData !== 'string' || typeof req.headers.collection !== 'string') {
+            console.error('Bad Request: Parameters are missing');
+            return res.status(400).json({error: 'Parameters are missing'});
+        }
+        const db = req.headers.db;
+        const query = {[req.body.queryTitle]: req.body.queryData};
+        const collection = req.headers.collection;
+        const results = await mongo.findAllFromDB(db, query, collection);
+
+        if (!results || results.length === 0) {
+            console.error('No data found');
+            return res.status(404).json({error: 'No data found'});
+        }
+        return res.status(200).json({data: results});
+    } catch (error) {
+        console.error(error);
+        if (error instanceof TypeError) {
+            return res.status(400).json({error: 'Bad request, invalid parameters.'});
+        } else if (error instanceof SyntaxError) {
+            return res.status(400).json({error: 'Bad request, syntax error in the query.'});
+        } else {
+            return res.status(500).json({error: 'Something went wrong, please try again.'});
+        }
+    }
+}
 
 export const DbInsert = async (req,res) =>{
     try{

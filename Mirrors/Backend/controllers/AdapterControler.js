@@ -55,3 +55,20 @@ function isValidRequestBody(body) {
 
     return true;
 }
+
+export const fetchAction = async (req, res) => {
+    if (!req.headers['x_mir_token']) {
+        console.error('Access Token not provided');
+        return res.status(400).json({message: 'Access Token not provided'});
+    }
+
+    const accessToken = req.headers['x_mir_token'];
+
+    if (!authService.verifyAccessToken(accessToken)) {
+        console.error('Unauthorized token');
+        return res.status(401).json({message: 'Unauthorized token'});
+    }
+    if(req.params.internal_axon_id){
+
+    }
+}

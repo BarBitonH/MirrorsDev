@@ -86,6 +86,26 @@ class MongoDbService {
         }
         console.error('not exists query or not exists collection');
     }
+    async findAllFromDB(db, query, collection) {
+        let collectionToFind = null;
+        if (!this.connected) {
+            await this.connect(db);
+        }
+        if (query !== null && collection !== null) {
+            try {
+                const connection = mongoose.connection;
+                const database = connection.useDb(db);
+                const collectionToFind = database.collection(collection);
+                const findResult =await collectionToFind.find(query);
+                return await findResult.toArray();
+
+            } catch (error) {
+                console.error('Could not find from db:', error.message);
+                throw error;
+            }
+        }
+        console.error('not exists query or not exists collection');
+    }
 
 
 }
