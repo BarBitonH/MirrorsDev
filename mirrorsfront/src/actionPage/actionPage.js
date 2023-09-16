@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './actionPage.css';
 import axios from 'axios';
+import UserCard from './UserCard'; // Assuming you've created a separate component
 
 const ActionPage = () => {
-    const [userData, setUserData] = useState({
-        userProfilePic: '',
-        userSkills: [],
-        userExp: [],
-        CompEvents: [],
-        gallery: [],
-        Education: [],
-        internalAxonId: '',
-        internalJobId: ''
-    });
+    const [userData, setUserData] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const fetchMeUser = async () => {
         try {
@@ -22,22 +15,28 @@ const ActionPage = () => {
                 }
             });
 
-            setUserData({
-                userProfilePic: response.data.profilePic,
-                userSkills: response.data.skills,
-                gallery: response.data.gallery,
-                userExp: response.data.exp,
-                internalAxonId: response.data.internal_axon_id,
-                internalJobId: response.data.internal_job_id
-            });
+            if (response.data) {
+                setUserData({
+                    userProfilePic: response.data.profilePic,
+                    userSkills: response.data.skills,
+                    gallery: response.data.gallery,
+                    userExp: response.data.exp,
+                    internalAxonId: response.data.internal_axon_id,
+                    internalJobId: response.data.internal_job_id
+                });
+            }
+
+            setLoading(false);
         } catch (error) {
             console.error("Error fetching user data:", error);
+            setLoading(false);
         }
     }
 
     useEffect(() => {
         fetchMeUser();
     }, []);
+
 
     const handleHireButton = async () => {
         try {
@@ -97,17 +96,23 @@ const ActionPage = () => {
 
     return (
         <div className="main-grid">
-            <h1 className="header">Elegant Page</h1>
-            <div className="footer-buttons">
-                <button className="button heart-button" onClick={handleHireButton}>
-                    ❤️
-                </button>
-                <button className="button x-button" onClick={handleDismissButton}>
-                    ✖️
-                </button>
-            </div>
+
+            {/* Display UserCard */}
+            {loading ? (
+                <p>Loading...</p>
+            ) : (
+                <UserCard data={userData} />
+            )}
+            <button className="button x-button" onClick={handleDismissButton}>
+                ✖️
+            </button>
+            <button className="button heart-button" onClick={handleHireButton}>
+                ❤️
+            </button>
+
         </div>
     );
+
 }
 
 export default ActionPage;

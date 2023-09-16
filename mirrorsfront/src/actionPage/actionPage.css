@@ -1,4 +1,13 @@
-
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 body {
     font-family: 'Lato', sans-serif;
@@ -34,52 +43,109 @@ body {
 }
 
 .button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-49%);
     font-size: 1.6rem;
     padding: 1rem 2rem;
     border: none;
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.4s ease;
-    margin: 0 1rem;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
 .button:hover {
-    transform: translateY(-3px);
+    transform: translateY(-53%);
+}
+
+.button::before {
+    content: '';
+    display: none;
+    position: absolute;
+    left: -30%;
+    transform: translateX(-50%);
+    background: linear-gradient(45deg, #444, #222, #444);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+            0 10px 25px rgba(0, 0, 0, 0.2),
+            inset 0 2px 5px rgba(255, 255, 255, 0.1),
+            inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+    bottom: calc(100% + 20px);
+    padding: 10px 15px;
+    border-radius: 30px;
+    color: white;
+    white-space: nowrap;
+    font-family: 'Open Sans', sans-serif;
+    z-index: 2;
+    animation: fadeInUp 0.3s forwards;
+    filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.2));
+}
+
+.button:hover::before {
+    display: block;
+}
+
+.button::after {
+    content: '';
+    display: none;
+    position: absolute;
+    width: 20px;
+    height:30px;
+    bottom: calc(100% + 10px); /* adjusted from 6px for better placement */
+    left: 0%;
+    transform: translateX(-50%);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='10'%3E%3Cpath d='M10 0L20 10H0L10 0z' fill='%23444'/%3E%3C/svg%3E");
+    z-index: 1;
+}
+
+.button:hover::after {
+    display: block;
 }
 
 .button:active {
-    transform: translateY(1px);
+    transform: translateY(-49%);
 }
+
 .button:focus {
     outline: none;
 }
 
 .heart-button {
+    right: 150px;
     background-color: #fff9c4;
     color: white;
-    transition: box-shadow 0.3s ease; /* Adding transition for smoother shadow effect */
+    transition: box-shadow 0.3s ease;
+}
+
+.heart-button:hover::before {
+    content: 'Hire 😊';
 }
 
 .x-button {
+    left: 150px;
     background-color: #fff9c4;
     color: #555;
-    transition: box-shadow 0.3s ease; /* Adding transition for smoother shadow effect */
+    transition: box-shadow 0.3s ease;
+}
+
+.x-button:hover::before {
+    content: 'Dismiss 😞';
 }
 
 .heart-button:hover {
     background-color: #fff9c4;
-    box-shadow: 0 0 0 15px rgba(76,175,80,0.3); /* Green-ish glow around the heart button on hover */
+    box-shadow: 0 0 0 15px rgba(76,175,80,0.3);
 }
 
 .x-button:hover {
     background-color: #fff9c4;
-    box-shadow: 0 0 0 15px rgba(244,67,54,0.3); /* Red-ish glow around the x button on hover */
+    box-shadow: 0 0 0 15px rgba(244,67,54,0.3);
 }
 
 .footer-buttons {
     position: absolute;
     bottom: 5%;
-    left: 50%;
+    right: 50%;
     transform: translateX(-50%);
 }

@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './JobList.css';
 import axios from "axios";
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 function JobList() {
     const [jobs, setJobs] = useState([]);
-
     const [showModal, setShowModal] = useState(false);
     const [newJob, setNewJob] = useState({
         title: '',
@@ -16,6 +15,7 @@ function JobList() {
         companyOffering: '',
         whatWeAreLookingFor: ''
     });
+
     const fetchData = async () => {
         const headers = {
             'x_mir_token': localStorage.getItem('x_mir_token'),
@@ -23,41 +23,41 @@ function JobList() {
             db: 'Users',
             collection: 'user_action'
         };
-
         const dataToSend = {
             queryData: localStorage.getItem('internal_axon_id'),
             queryTitle: 'internal_axon_id'
         };
-
         try {
             const response = await axios.post('http://localhost:3000/dbRouter/db/FindAll', dataToSend, { headers: headers });
-
-            const internalJobIds = response.data.map(item => item.internal_job_id);
+            console.log(response);
+            console.log(response.data.data)
+            const internalJobIds = response.data.data.map(item => item.internal_job_id);
             localStorage.setItem('internal_job_ids', JSON.stringify(internalJobIds));
-
-            setJobs(response.data);
+            setJobs(response.data.data);
         } catch (error) {
             console.error("Error fetching jobs:", error);
         }
     };
+
     useEffect(() => {
         fetchData();
     }, []);
 
-
     const handleInputChange = (event) => {
-        const {name, value} = event.target;
-        setNewJob(prevState => ({...prevState, [name]: value}));
+        const { name, value } = event.target;
+        setNewJob(prevState => ({ ...prevState, [name]: value }));
     };
 
     const addNewJob = async () => {
         // Define headers
         const headers = {
-            'x_mir_token' : localStorage.getItem('x_mir_token'),
+            'x_mir_token': localStorage.getItem('x_mir_token'),
             'Content-Type': 'application/json',
-            db:'Users',
-            collection:'user_action'
+            db: 'Users',
+            collection: 'user_action'
         };
+
+        // Define data
         const data = {
             internal_axon_id: localStorage.getItem('internal_axon_id'),
             internal_job_id: uuidv4(),
@@ -68,15 +68,15 @@ function JobList() {
             relevantSkills: newJob.relevantSkills,
             companyOffering: newJob.companyOffering,
             whatWeAreLookingFor: newJob.whatWeAreLookingFor,
-            will_interactions:[],
-            blocked_interactions:[],
+            will_interactions: [],
+            blocked_interactions: [],
             matches: []
         };
 
         try {
             // Sending Axios POST request using await
-           await axios.post('http://localhost:3000/dbRouter/db/insert', data, { headers: headers });
-            setJobs(prevJobs => [...prevJobs, {...newJob, id: prevJobs.length + 1}]);
+            await axios.post('http://localhost:3000/dbRouter/db/insert', data, { headers: headers });
+            setJobs(prevJobs => [...prevJobs, { ...newJob, id: prevJobs.length + 1 }]);
             setNewJob({
                 title: '',
                 location: '',
@@ -91,33 +91,27 @@ function JobList() {
             console.error("Error adding the job:", error);
         }
     };
+
     return (
         <div className="jobListContainer">
             <button className="addJobButton" onClick={() => setShowModal(true)}>Add Job</button>
-
-            {jobs.length === 0 ? (
-                <div className="emptyMessage">
-                    No jobs available.
-                </div>
-            ) : (
-                jobs.map(job => (
-                    <div className="job" key={job.id}>
-                        <h3>{job.title}</h3>
-                        <p className="location">{job.location}</p>
-                        <p className="jobType">{job.type}</p>
-                        <div className="jobDescription">{job.description}</div>
-                        <ul className="jobSkills">
-                            {job.relevantSkills && Array.isArray(job.relevantSkills) && job.relevantSkills.map((skill, index) => <li key={index}>{skill}</li>)}
-                        </ul>
-                        <div className="jobOffers">
-                            <strong>Company Offers:</strong> {job.companyOffering}
-                        </div>
-                        <div className="jobLookingFor">
-                            <strong>We're Looking For:</strong> {job.whatWeAreLookingFor}
-                        </div>
+            {jobs.map(job => (
+                <div className="job" key={job._id}>
+                    <h3>{job.title}</h3>
+                    <p className="location">{job.location}</p>
+                    <p className="jobType">{job.type}</p>
+                    <div className="jobDescription">{job.description}</div>
+                    <ul className="jobSkills">
+                        {job.relevantSkills && Array.isArray(job.relevantSkills) && job.relevantSkills.map((skill, index) => <li key={index}>{skill}</li>)}
+                    </ul>
+                    <div className="jobOffers">
+                        <strong>Company Offers:</strong> {job.companyOffering}
                     </div>
-                ))
-            )}
+                    <div className="jobLookingFor">
+                        <strong>We're Looking For:</strong> {job.whatWeAreLookingFor}
+                    </div>
+                </div>
+            ))}
 
             {showModal && (
                 <div className="modalOverlay">

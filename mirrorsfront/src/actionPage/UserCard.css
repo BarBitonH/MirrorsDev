@@ -1,0 +1,159 @@
+/* Reset & basic styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #f3f4f8;
+    color: #333;
+}
+
+.user-card {
+    position: relative;
+    max-width: 600px;
+    width: 90%;
+    margin: 50px auto;
+    background: #ffffff;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    transition: transform 0.3s;
+}
+
+.user-card:hover {
+    transform: scale(1.02);
+}
+
+/* Profile Picture */
+.profile-picture-section {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: -60px auto 20px;
+    background: #f3f4f8;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Watermark */
+.watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    opacity: 0.5;
+}
+
+/* Sections */
+.section {
+    padding: 15px;
+    border-bottom: 1px solid #f3f4f8;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+/* User Info */
+.user-info-section {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
+}
+
+/* Summary */
+.summary-section p {
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+/* Experience */
+.single-experience, .single-education {
+    margin-bottom: 10px;
+}
+
+/* Skills */
+.skills-section {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.skill {
+    padding: 5px 10px;
+    margin: 5px;
+    background-color: #3498db;
+    border-radius: 20px;
+    color: white;
+    font-size: 14px;
+}
+
+/* Gallery */
+.gallery-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.gallery-image {
+    width: 30%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Skeleton Loading */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Additional Styles */
+.profile-picture-skeleton {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.summary-skeleton {
+    height: 60px;
+}
+
+.gallery-skeleton {
+    width: 30%;
+    height: 100px;
+    border-radius: 10px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 480px) {
+    .user-card {
+        width: 95%;
+    }
+
+    .gallery-image {
+        width: 100%;
+    }
+}
+
