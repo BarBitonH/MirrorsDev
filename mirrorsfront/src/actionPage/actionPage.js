@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import './actionPage.css';
 import axios from 'axios';
-import UserCard from './UserCard'; // Assuming you've created a separate component
-
+import UserCard from './UserCard';
 const ActionPage = () => {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [jobList, setJobList] = useState([]);
+    const [selectedJob, setSelectedJob] = useState(null);
 
     const fetchMeUser = async () => {
+        console.log('fetchMeUser called');
+        setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:3000/adapterRouter/fetchAction/${localStorage.getItem('internal_axon_id')}`, {
+            const response = await axios.get(`http://localhost:3000/adapterRouter/${selectedJob}`, {
                 headers: {
-                    authorization: localStorage.getItem('internal_axon_id')
+                    'x_mir_token': localStorage.getItem('x_mir_token')
                 }
             });
 
@@ -25,17 +28,40 @@ const ActionPage = () => {
                     internalJobId: response.data.internal_job_id
                 });
             }
-
-            setLoading(false);
         } catch (error) {
             console.error("Error fetching user data:", error);
-            setLoading(false);
         }
     }
 
+    const fetchJobTitles = async () => {
+        console.log('fetchJobTitles called');
+        const headers = {
+            'x_mir_token': localStorage.getItem('x_mir_token')
+        };
+
+        const data = {
+            internal_axon_id: localStorage.getItem('internal_axon_id')
+        };
+
+        try {
+            const response = await axios.post('http://localhost:3000/adapterRouter/fetchJobList', data, { headers });
+            setJobList(response.data || []);
+            setLoading(false); // Set loading to false once job titles are fetched
+        } catch (error) {
+            console.error('Error fetching job list:', error);
+            setLoading(false); // Also set loading to false in case of an error so the user isn't stuck on a loading screen
+        }
+    };
+
     useEffect(() => {
-        fetchMeUser();
+        fetchJobTitles();
     }, []);
+
+    useEffect(() => {
+        if (selectedJob) {
+            fetchMeUser();
+        }
+    }, [selectedJob]);
 
 
     const handleHireButton = async () => {
@@ -96,12 +122,20 @@ const ActionPage = () => {
 
     return (
         <div className="main-grid">
-
-            {/* Display UserCard */}
+            <div className="dropdown-section">
+                <select value={selectedJob} onChange={(e) => setSelectedJob(e.target.value)}>
+                    <option value="" disabled>Select a Job</option>
+                    {jobList.map(job => (
+                        <option key={job.internal_job_id} value={job.internal_job_id}>
+                            {job.title}
+                        </option>
+                    ))}
+                </select>
+            </div>
             {loading ? (
                 <p>Loading...</p>
             ) : (
-                <UserCard data={userData} />
+                <UserCard data={userData} /> // Display UserCard regardless of userData's value
             )}
             <button className="button x-button" onClick={handleDismissButton}>
                 ✖️
@@ -109,10 +143,8 @@ const ActionPage = () => {
             <button className="button heart-button" onClick={handleHireButton}>
                 ❤️
             </button>
-
         </div>
     );
-
 }
 
 export default ActionPage;

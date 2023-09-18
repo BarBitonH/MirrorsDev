@@ -2,12 +2,14 @@ import dotenv from "dotenv";
 import path from "path";
 import AuthService from "../Services/AuthService.js";
 import UserActionService from "../Services/userActionService.js";
+import FetchUserService from "../Services/fetchUserService.js";
 
 dotenv.config({ path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\Mirrors\\Backend\\secrets.env') });
 
 const SECRET_KEY_INTERNAL = process.env.JWT_INTERNAL_SECRET;
 const authService = new AuthService(SECRET_KEY_INTERNAL);
 const manageUserActions = new UserActionService();
+const fetchUserService = new FetchUserService();
 
 export const manageAction = async (req, res) => {
     if (!req.headers['x_mir_token']) {
@@ -68,7 +70,29 @@ export const fetchAction = async (req, res) => {
         console.error('Unauthorized token');
         return res.status(401).json({message: 'Unauthorized token'});
     }
-    if(req.params.internal_axon_id){
 
+    const internalJobId = req.params.internal_axon_id;
+
+    if (internalJobId) {
+    const userToReturn = fetchUserService.findWhoToFetchForJobRequirements(internalJobId,accessToken);
+        res.json({ message: `Fetching data for internal_axon_id: ${internalJobId}` });
+    } else {
+        res.status(400).json({ message: 'internal_axon_id is missing.' });
     }
+}
+export const fetchAllJobList = async (req,res) =>{
+        if (!req.headers['x_mir_token']) {
+            console.error('Access Token not provided');
+            return res.status(400).json({message: 'Access Token not provided'});
+        }
+
+        const accessToken = req.headers['x_mir_token'];
+
+        if (!authService.verifyAccessToken(accessToken)) {
+            console.error('Unauthorized token');
+            return res.status(401).json({message: 'Unauthorized token'});
+        }
+        const listOfAllJobList = await fetchUserService.fetchAllJobList(req.body['internal_axon_id'],accessToken);
+        console.log(listOfAllJobList);
+        return res.status(200).json(listOfAllJobList);
 }

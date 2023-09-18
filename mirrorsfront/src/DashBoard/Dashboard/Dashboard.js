@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../SideBar/SideBar.js';
 import ProfileInfo from '../ProfileInfo/ProfileInfo.js';
+import ApplicantProfileInfo from "../ProfileInfo/applicantProfileInfo";
 import Gallery from '../Gallery/Gallery.js';
 import Modal from '../Modal/Modal.js';
 import Notifications from '../Notifications/Notifications';
@@ -8,6 +9,7 @@ import Metrics from '../Metrics/Metrics';
 import './Dashboard.css';
 import LoadingPage from "../../LoadingPage/LoadingPage.js";
 import axios from "axios";
+import ApplicantSideBar from "../SideBar/ApplicantSideBar";
 
 const Dashboard = () => {
     const [userData, setUserData] = useState(null);
@@ -33,7 +35,8 @@ const Dashboard = () => {
                     throw new Error("Couldn't fetch user data");
                 }
                 setUserData(response.data.data.profileData);
-                console.log(response.data.data.profileData)
+                console.log(response.data.data.profileData);
+                console.log(response.data.data.profileData.userType);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -60,12 +63,17 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard">
-            <Sidebar onLinkClick={openModal} />
+            {userData.userType === 'applicant' ?
+                <ApplicantSideBar onLinkClick={openModal} /> :
+                <Sidebar onLinkClick={openModal} />
+            }
 
             <div className="dashboard-main">
                 {selectedModalContent && <Modal content={selectedModalContent} onClose={closeModal} />}
-
-                <ProfileInfo data={userData} />
+                {userData.userType === 'applicant' ?
+                    <ApplicantProfileInfo data={userData} /> :
+                    <ProfileInfo data={userData} />
+                }
                 <Gallery images={userData.galleryImages} />
 
                 {userData.notifications && <Notifications list={userData.notifications} />}

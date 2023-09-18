@@ -1,30 +1,31 @@
 import mongoose, {connect} from 'mongoose'
 import dotenv from "dotenv";
 import path from "path";
+
 dotenv.config({path: path.resolve('C:\\Users\\Admin\\WebstormProjects\\MirrorsDev\\secrets.env')});
+
 class MongoDbService {
     constructor() {
         this.dbURL = process.env.DB_CONNECTION_STRING;
         this.connected = false;
         this.dbName = '';
     }
-    async updateDB(db,query, update, collection,type) {
+
+    async updateDB(db, query, update, collection, type) {
         let collectionToUpdate = null;
         if (!this.connected)
             await this.connect();
         if (query !== null && collection !== null && update !== null) {
             try {
-                    const dbToUpdate = mongoose.connection.useDb(db);
-                    collectionToUpdate = dbToUpdate.collection(collection);
-                if(type === '$set') {
+                const dbToUpdate = mongoose.connection.useDb(db);
+                collectionToUpdate = dbToUpdate.collection(collection);
+                if (type === '$set') {
                     const updateResult = await collectionToUpdate.updateOne(query, {$set: update});
                     return updateResult;
-                }
-                else if(type === '$push'){
+                } else if (type === '$push') {
                     const updateResult = await collectionToUpdate.updateOne(query, {$push: update});
                     return updateResult;
-                }
-                else
+                } else
                     throw new Error('Not Exists Method for update');
             } catch (error) {
                 console.error('Could not update in db');
@@ -47,7 +48,7 @@ class MongoDbService {
         }
     }
 
-    async insertToDb(db,json, collection) {
+    async insertToDb(db, json, collection) {
         let collectionToInsert = null;
         if (!this.connected) {
             await this.connect();
@@ -68,7 +69,7 @@ class MongoDbService {
         }
     }
 
-    async findFromDB(db,query, collection) {
+    async findFromDB(db, query, collection) {
         let collectionToFind = null;
         if (!this.connected)
             await this.connect(db);
@@ -86,6 +87,7 @@ class MongoDbService {
         }
         console.error('not exists query or not exists collection');
     }
+
     async findAllFromDB(db, query, collection) {
         let collectionToFind = null;
         if (!this.connected) {
@@ -96,7 +98,7 @@ class MongoDbService {
                 const connection = mongoose.connection;
                 const database = connection.useDb(db);
                 const collectionToFind = database.collection(collection);
-                const findResult =await collectionToFind.find(query);
+                const findResult = await collectionToFind.find(query);
                 return await findResult.toArray();
 
             } catch (error) {
@@ -109,6 +111,7 @@ class MongoDbService {
 
 
 }
+
 export default MongoDbService;
 
 

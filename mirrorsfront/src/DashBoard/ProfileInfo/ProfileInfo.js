@@ -33,7 +33,6 @@ function ProfileInfo({data}) {
     };
 
     const saveChanges = () => {
-        // Ideally, send the editedData to the server to update company data.
         setIsEditing(false);
     };
 

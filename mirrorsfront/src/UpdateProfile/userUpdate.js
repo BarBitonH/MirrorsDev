@@ -176,7 +176,6 @@ const ProfileUpdate = () => {
     const [educations, setEducations] = useState([]);
     const [media, setMedia] = useState([]);
     const [galleryImages, setGalleryImages] = useState([]);
-    const [galleryFiles, setGalleryFiles] = useState([]);
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [location, setLocation] = useState("");
@@ -184,42 +183,79 @@ const ProfileUpdate = () => {
     const [aboutMe, setAboutMe] = useState("");
     const navigate = useNavigate()
     const handleSubmit = async () => {
-        let data = {
-            location: location,
-            dob: dob,
-            phone: phone,
-            email: email,
-            aboutMe: aboutMe,
-            experiences: experiences,
-            skills: skills,
-            educations: educations,
-            media: media,
-            galleryImages:galleryImages,
-            profilePic:profilePic,
-        };
-
-
-
-        console.log(data);
         try {
-            const response = await axios.post('http://localhost:3000/dbRouter/db/insert', data, {
+            const internal_axon_id = localStorage.getItem('internal_axon_id');
+            const token = localStorage.getItem('x_mir_token');
+
+            if (!internal_axon_id || !token) {
+                throw new Error("Missing critical data in localStorage.");
+            }
+
+            const dataToUpload = {
+                internal_axon_id: internal_axon_id,
+                profileData: {
+                    userType: userType,
+                    location: location,
+                    dob: dob,
+                    phone: phone,
+                    email: email,
+                    aboutMe: aboutMe,
+                    experiences: experiences,
+                    skills: skills,
+                    educations: educations,
+                    profilePicture: profilePic,
+                    galleryImages: galleryImages.map(file => URL.createObjectURL(file)),
+                }
+            };
+
+            const response = await axios.post('http://localhost:3000/dbRouter/db/insert', dataToUpload, {
                 headers: {
-                    'x_mir_token': localStorage.getItem('x_mir_token'),
+                    'x_mir_token': token,
                     db: 'Users',
-                    collection: 'User_profile',
-                    'Content-Type': 'application/json' // make sure the content type is set to JSON
+                    collection: 'User_profile'
                 }
             });
 
-            if (response.status === 200) {
-                console.log("Profile updated successfully:", response.data);
-                navigate('/Dashboard')
-            } else {
-                console.error("Error updating profile:", response.data);
+            if (response.status !== 200 || response.data.error) { // Assuming error is a field in your response
+                throw new Error(`API Insert Error: ${response.data.error || 'Unknown Error'}`);
             }
+
+            const updatingUpdate = await axios.post('http://localhost:3000/dbRouter/db/update', {
+                queryData: internal_axon_id,
+                queryTitle: 'internal_axon_id',
+                method:'$set',
+                update: { 'need_Update': false }
+            }, {
+                headers: {
+                    collection: 'User_login',
+                    db: 'Users',
+                    'x_mir_token': token,
+                }
+            });
+
+            if (updatingUpdate.status !== 200 || updatingUpdate.data.error) {
+                throw new Error(`API Update Error: ${updatingUpdate.data.error || 'Unknown Error'}`);
+            }
+
+            navigate('/CompanyDashboard');
+            console.log("Data saved successfully:", response.data);
+
         } catch (error) {
-            console.error("There was an error sending the request:", error);
+            console.error(error.message || "Error saving data.");
         }
+    };
+
+    const fileToDataURL = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                resolve(event.target.result);
+            };
+            reader.onerror = (error) => {
+                reject(error);
+            };
+            reader.readAsDataURL(file);
+        });
     };
 
     const addExperience = () => {
@@ -251,10 +287,7 @@ const ProfileUpdate = () => {
 
     const handleGalleryFilesUpload = (event) => {
         const files = Array.from(event.target.files);
-        setGalleryFiles(prevFiles => {
-            const newFiles = [...prevFiles, ...files];
-            return newFiles.slice(0, 10); // Ensuring we never exceed 10 files
-        });
+        setGalleryImages([...galleryImages, ...files]);
     };
     const addMedia = (type) => {
         if (media.length < 10) {
@@ -370,11 +403,11 @@ const ProfileUpdate = () => {
                 {/* Gallery Upload */}
                 <h2>Gallery</h2>
                 <GalleryContainer>
-                    {galleryFiles.map((file, idx) => (
+                    {galleryImages.map((file, idx) => (
                         <GalleryImage key={idx} src={URL.createObjectURL(file)} alt={`Gallery Image ${idx + 1}`} onLoad={() => URL.revokeObjectURL(file)} />
                     ))}
                 </GalleryContainer>
-                {galleryFiles.length < 10 && (
+                {galleryImages.length < 10 && (
                     <>
                         <input id="gallery-upload" type="file" multiple onChange={handleGalleryFilesUpload} style={{ display: 'none' }} />
                         <label htmlFor="gallery-upload" style={{ display: 'block', textAlign: 'center', cursor: 'pointer', color: '#667eea' }}>

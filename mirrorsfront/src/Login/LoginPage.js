@@ -24,12 +24,16 @@ const LoginPage = () => {
                 localStorage.setItem('x_mir_token', response.headers['x_mir_token']);
                 console.log(response.headers['x_mir_token']);
                 console.log(response.data);
-                if(response.data.needUpdate) {
+                console.log(response.data.needUpdate);
+                if(response.data.needUpdate === true) {
                     console.log(response.data.userTpye);
                     if (response.data.userTpye === 'applicant')
                         navigate('/userUpdate')
                     else
                         navigate('/companyUpdate');
+                }
+                else{
+                    navigate('/CompanyDashboard')
                 }
             } else {
                 // Optional: Handle other response statuses if needed

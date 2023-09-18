@@ -8,7 +8,6 @@ const sections = [
     { name: "Find You Career Match", icon: "🖼️",route:"/ActionFlow" },
     { name: "My Matches", icon: "📊" },
     { name: "Settings", icon: "⚙️" },
-    { name: "Jobs List", icon: "📋", route: "/JobList" },  // Added a route key
 ];
 
 function Sidebar() {

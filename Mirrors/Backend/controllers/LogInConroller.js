@@ -17,7 +17,7 @@ export const login = async (req, res) => {
     try {
         console.log('the system called');
         const loginResults = await loginService.login(req.body.email, req.body.password);
-        if (loginResults['x_mir_token'] && loginResults.internal_axon_id && loginResults.needUpdate && loginResults.userType) {
+        if (loginResults['x_mir_token'] && loginResults.internal_axon_id && (loginResults.needUpdate || !loginResults.needUpdate) && loginResults.userType) {
             res.setHeader('x_mir_token',loginResults['x_mir_token']);
             return res.status(200).json({internal_axon_id: loginResults.internal_axon_id,needUpdate:loginResults.needUpdate,userTpye:loginResults.userType});
         } else {

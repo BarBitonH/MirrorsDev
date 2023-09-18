@@ -38,8 +38,10 @@ const UploadInput = styled.input`
   position: relative;
   top: 0;
   left: 0;
-  width: 130px;
-  height: 130px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 200px;
+  height: 200px;
   opacity: 0;
   cursor: pointer;
 `;
@@ -67,7 +69,10 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-
+const ButtonSave = styled.button`
+margin-bottom: 20px;
+  margin-top: 20px;
+`
 
 const Title = styled.h1`
   font-size: 24px;
@@ -94,6 +99,18 @@ const Input = styled.input`
     border-color: #FFC107;
   }
 `;
+const ProfileImage = styled.div`
+  width: 0%;
+  height: 100%;
+  background: white;
+  background: url('https://via.placeholder.com/50?text=👤') no-repeat center;
+  background-size: contain;
+  transition: transform 0.3s ease-in-out; // For smoother transition
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
 const GalleryImage = styled.img`
   width: 80px;
   height: 80px;
@@ -107,7 +124,8 @@ const GalleryContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
-  margin: 20px 0;
+  margin: 20px 20px;
+  
 `;
 
 const TextArea = styled.textarea`
@@ -247,9 +265,12 @@ const CompanyUpdate  = () => {
                 <Header>
                     <Title>Company Profile</Title>
                 </Header>
-                <ProfilePictureContainer>
-                    <ProfilePicture src={profilePic || "https://via.placeholder.com/150"} alt="Company Logo" />
-                    <UploadInput type="file" accept="image/*" onChange={handleProfilePicChange} />
+                <ProfilePictureContainer onClick={() => document.getElementById("profilePicInput").click()}>
+                    {profilePic ?
+                        <ProfilePicture src={profilePic} alt="Profile" /> :
+                        <ProfileImage />
+                    }
+                    <UploadInput id="profilePicInput" type="file" onChange={handleProfilePicChange} />
                 </ProfilePictureContainer>
                 <Subtitle>Company Details</Subtitle>
                 <Input type="text" placeholder="Company Name" />
@@ -350,8 +371,10 @@ const CompanyUpdate  = () => {
                         <label htmlFor="gallery-upload">Upload Gallery Images</label>
                     </>
                 )}
-                <button onClick={saveProfileToDatabase}>Save Profile</button>
-            </Card>
+                <ButtonSave>
+                    <button onClick={saveProfileToDatabase}>Save Profile</button>
+                </ButtonSave>
+                </Card>
         </Container>
     );
 }

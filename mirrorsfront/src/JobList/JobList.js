@@ -153,7 +153,7 @@ function JobList() {
                                 <option value="">Select Job Type</option>
                                 <option value="Full-Time">Full-Time</option>
                                 <option value="Part-Time">Part-Time</option>
-                                <option value="Remote">Remote</option>
+                                <option value="Student">Remote</option>
                             </select>
                         </div>
                         <div className="modalSection">
