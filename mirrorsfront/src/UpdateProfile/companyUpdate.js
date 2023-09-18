@@ -250,7 +250,48 @@ const CompanyUpdate  = () => {
                         collection:'User_profile'
                 }});
             if(response.status === 200){
-                navigate('/CompanyDashboard')
+                try {
+                    const resultForUpdatingUpdate = await axios.post('http://localhost:3000/dbRouter/db/update',
+                        {
+                            queryTitle: 'internal_axon_id',
+                            queryData: localStorage.getItem('internal_axon_id'),
+                            method: '$set',
+                            update: { 'need_Update': false }
+                        },
+                        {
+                            headers: {
+                                'x_mir_token': localStorage.getItem('x_mir_token'),
+                                collection: 'User_login',
+                                db: 'Users'
+                            }
+                        });
+                    if (resultForUpdatingUpdate.status === 200) {
+                        navigate('/CompanyDashboard');
+                    } else if (resultForUpdatingUpdate.status === 400) {
+                        console.error("Bad request:", resultForUpdatingUpdate.data);
+                        alert("Bad request. Please ensure your data is correct and try again.");
+                    } else if (resultForUpdatingUpdate.status === 401) {
+                        console.error("Unauthorized:", resultForUpdatingUpdate.data);
+                        alert("Unauthorized access. Please check your token or login again.");
+                    } else if (resultForUpdatingUpdate.status === 500) {
+                        console.error("Server error:", resultForUpdatingUpdate.data);
+                        alert("Internal server error. Please try again later.");
+                    } else {
+                        console.error("Unexpected response status:", resultForUpdatingUpdate.status, resultForUpdatingUpdate.data);
+                        alert("An unknown error occurred. Please try again later.");
+                    }
+                } catch (error) {
+                    if (error.response) {
+                        console.error("Server responded with an error:", error.response.status, error.response.data);
+                        alert(`Server responded with an error: ${error.response.status}`);
+                    } else if (error.request) {
+                        console.error("No response received:", error.request);
+                        alert("No response from server. Please check your connection or try again later.");
+                    } else {
+                        console.error("Error during request setup:", error.message);
+                        alert(`Request error: ${error.message}`);
+                    }
+                }
             }
             console.log("Data saved successfully:", response.data);
         } catch (error) {
